@@ -34,6 +34,7 @@ var filedata;
 var contentlength;
 var blobUrl;
 var imagefile;
+var showhidethumb = false;
 var reader = new FileReader();
 var $input = $('<input/>',{type: "file", id:"fileid", style:"display:none;"});
 $input.prependTo($('body'));
@@ -340,6 +341,8 @@ var $link3 = $('<a/>',{
   });
 
 
+
+
 $link2.on('click', function() {
 var blob = new Blob([getSRT(yy, name)], {type: "text/plain;charset=utf-8"});
 
@@ -355,7 +358,7 @@ $link3.appendTo($row);
 
 };
 function openReviewPage(link) {window.open(link);}
-function niet(r, a) {
+function niet(r, a, videoid) {
 var $row = $('.table_cell__title_wrapper')[a];
 var $link5 = $('<a/>',{
     text:  '✓',
@@ -364,11 +367,25 @@ var $link5 = $('<a/>',{
     id:    'reviewpage',
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
   }); $link5.appendTo($row);
+
+
+
 };
-
-
-
-
+function addThumbButton(videoid, a) {
+    var $row = $('.table_cell__title_wrapper')[a];
+var $settn = $('<a/>',{
+    text:  'thumb op 3sec',
+    href: '#',
+    name: "thumb3button",
+    class: "thumb3button",
+    onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
+    onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
+    id:    'thumb'+a,
+    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; display: none;'
+  });
+$settn.on('click', function() {setThumbnailTo3(videoid, a);});
+$settn.appendTo($row);
+}
 
 
 
@@ -384,7 +401,7 @@ addGlobalStyle('.checkbox > input:active {border: 2px solid #34495E;}');
 var total = {};
 
 opschoonButton();
-
+thumb3Buttons();
 
 query = window.location.href.replace('https://vimeo.com/manage/videos/search/','');
 zipname = decodeURIComponent(query).replace('#','');
@@ -423,10 +440,10 @@ getEmbed(videoid, a);
 addThumbnailButton(videoid, a);
 
 addVersionsSticker(videoid, a);
-
+addThumbButton(videoid, a);
 
 var numberOfComments = getNumberOfComments(y);
-if(!numberOfComments) {niet(w,a);};
+if(!numberOfComments) {niet(w,a, videoid);};
 
 if (numberOfComments > 0) {
 globalnames.push(name);
@@ -577,6 +594,21 @@ var $bar2 = $('.topnav_menu_desktop_main')[0];
 $opschoonLink.appendTo($bar2);
 };
 
+function thumb3Buttons() {
+var $thumb3buttons = $('<a/>',{
+    text:  'show thumbnail buttons',
+    title: 'toon de knoppen om de thumbnail aan te passen',
+    href: '#',
+    onmouseover: 'javascript:this.style.backgroundColor = "red";',
+    onmouseout: 'javascript:this.style.backgroundColor = "darkred";',
+    id:    'thumbsbutton',
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: darkred; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+  });
+$thumb3buttons.click(function() {if(!showhidethumb) {$('.thumb3button').show();}});
+var $bar2 = $('.topnav_menu_desktop_main')[0];
+$thumb3buttons.appendTo($bar2);
+};
+
 
 function allesOpschonen() {
 Object.keys(oldVersions).forEach(function (videoid) {
@@ -606,4 +638,20 @@ Referer: "https://vimeo.com/manage/"+videoid+"/collaboration",
 });
 alert("Alle oudste versies zijn verwijderd! Klik nogmaals om voorlaatste versies te verwijderen...");
 location.reload();
+}
+
+function setThumbnailTo3(videoid, a) {
+var qq = $('.table_cell__thumb-wrapper')[a].children[0].children[0].children[0];
+qq.style.backgroundImage = "url('https://loading.io/spinners/camera/index.svg')";
+qq.backgroundSize = 'contain';
+
+$.ajax({
+         url: "https://api.vimeo.com/videos/"+videoid+"/pictures",
+
+         type: "POST",
+    data:{active: true, time:'3.5'},
+    beforeSend: function(request) {
+    request.setRequestHeader("Authorization", "jwt "+token);},
+    success: function(v) {$('thumb'+a).hide(); qq.style.backgroundImage = "url("+v.sizes[2].link+")";}
+});
 }
