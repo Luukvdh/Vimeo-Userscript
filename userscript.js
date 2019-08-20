@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Luuk's Vimeo gemaksfuncties
+// @name        Luuk's Vimeo gemaksfuncties 2
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
 // @version 1
@@ -9,15 +9,30 @@
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js
+
 // ==/UserScript==
 // Author:      Luuk van den Hoogen
 // Date:     2019-26-juli
 
 $.noConflict();
 
+$.fn.extend({
+    toggleHTML: function(a, b){
+        return this.html(this.html() == b ? a : b);
+    }
+});
+
+
+var style = document.createElement('style');
+style.innerHTML = ".tooltip {opacity: 0; -webkit-transition: opacity 1s ease-in-out; transition: opacity 2s ease-in-out; transition-delay: 2s; } .tooltip:hover:after {opacity: 1;}";
+
+
+var secs = 3.5;
+var resetsecs = 3.5;
 var links = new Array;
 var globalnames = [];
 var globallenghts = [];
+var globalIDs = [];
 var query;
 var totalfile;
 var token;
@@ -37,7 +52,9 @@ var imagefile;
 var showhidethumb = false;
 var reader = new FileReader();
 var $input = $('<input/>',{type: "file", id:"fileid", style:"display:none;"});
+var $copyinput = $('<textarea/>',{id:"copyinput", style:"display:none;"});
 $input.prependTo($('body'));
+$copyinput.prependTo($('body'));
 
 function downloadAllSrts() {
 
@@ -47,7 +64,7 @@ zipname = decodeURIComponent(query).replace('#','');
 
 var d = new Date();
 var mm = d.getMonth();
-var maanden = ['niks','jan','feb','maart','april','mei','juni','juli','aug','sep','oct','nov','dec'];
+var maanden = ['jan','feb','maart','april','mei','juni','juli','aug','sep','oct','nov','dec'];
 var maand = maanden[parseInt(mm)];
 var datum = d.getDate()+" "+maand;
 //var longeststr = globalnames.sort(function (a, b) { return b.length - a.length; })[0];
@@ -109,7 +126,7 @@ var videoinfo = $.ajax({
         type: 'POST',
         url: "https://vimeo.com/upload/_get_image_url",
      data: {type: "video", id: videoid},
-         success: function(a) {console.log("upload link verkrijgen gelukt"); uploadThumbnail(videoid, videoLink, a.link);},
+         success: function(a) {console.log("upload link verkrijgen gelukt"); console.dir(a); uploadThumbnail(videoid, a);},
          error: function(a) {console.log('fout bij opvragen video-info voor thumbnail...');}
     });
 
@@ -117,26 +134,24 @@ var videoinfo = $.ajax({
 
 
 // --------------------------------------------------------------------- upload thumbnail
-function uploadThumbnail(videoid, videoLink, cloudlink) {
+function uploadThumbnail(videoid, cloudlink) {
 
 console.log("Ik ben al bij upload thumbnail!");
 console.log("videoid: "+videoid);
 console.log("content-type: "+contenttype);
 console.log("cloudlink: "+cloudlink);
-var data = reader.result;
-data = data.replace("image/jpeg;base64,","");
-data = data.replace("image/png;base64,","");
-console.dir(reader);
+
 $.ajax({
         type: 'PUT',
         url: cloudlink,
     content: {
             "mimeType": contenttype,
-            "size": 17934,
-            "encoding": "base64",
-            "text": data},
+            "size": contentlength,
+        "Content-type": "application/json",
+
+            "data": data},
     beforeSend: function(request) {
-    request.setRequestHeader("Accept", "*/*");
+    request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4");
 
     request.setRequestHeader("Content-Type", contenttype);
 
@@ -146,6 +161,7 @@ success:  function(a) {console.log(a);},
     });
 
 }
+var data;
 function addThumbnailButton(videoid, a) {
 
 var $row = $('.table_cell__title_wrapper')[a];
@@ -161,9 +177,13 @@ $link4.on('click', function() {
 
     $('input[id=fileid]').trigger('click'); $('input[id=fileid]').on('change', function() { console.dir($("#fileid")[0].files[0]);
 
-reader.readAsDataURL($("#fileid")[0].files[0]); console.log(reader);
+var r = new FileReader();
 
-contenttype = $("#fileid")[0].files[0].type; contentlength = $("#fileid")[0].files[0].length;  console.log(reader);getVideoInfoForThumbnail(videoid);});});
+contenttype = $("#fileid")[0].files[0].type; contentlength = $("#fileid")[0].files[0].length;
+
+r.onload = function(){ data = r.result; };
+r.readAsBinaryString($("#fileid")[0].files[0]); data = r.result;
+getVideoInfoForThumbnail(videoid);});});
 //$link4.appendTo($row);
 
 }
@@ -205,6 +225,7 @@ var $label = $("<label>", {style: "display: block; position: relative; padding-l
 var $checkbox = $('<input />',{
     type: 'checkbox',
     class: 'checkbox',
+    title: 'Leraren-embed instellingen?',
     id:    'LEcheckbox'+a,
     name:  'LEcheckbox'+a,
     checked: false,
@@ -272,6 +293,7 @@ var req =  $.ajax({
         url: r,
     async: false});
 var responsetext = (req.responseText);
+if(responsetext.includes(",,,,,,,")) {var j = responsetext.indexOf(",,,,,,,"); responsetext = responsetext.substr(0,j);};
 var responsetextsrt = convertCSVtoSRT(responsetext);
 name = req.name;
    return responsetextsrt;
@@ -281,10 +303,11 @@ name = req.name;
 var $downloadAllLink = $('<a/>',{
     text:  'download alle SRT\'s',
     href: '#',
+    class: 'blue',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
     id:    'allbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 28px; margin-top: 8px;'
   });
 $downloadAllLink.click(function() {downloadAllSrts();});
 var $bar = $('.topnav_menu_desktop_main')[0];
@@ -308,11 +331,17 @@ var $row = $('.table_cell__title_wrapper')[a];
 var $xmark = $('<a/>',{
     html:  '<span style="font-weight: bold; font-size: 14pt; position: relative; top: 2px;">&#9993;&nbsp;</span>('+numberOfComments+')',
     href: '#',
+    //onmouseover: 'javascript:this.style.transform = "scale(1.05)"',
+    //onmouseout: 'javascript:this.style.transform = "scale(1.0)"',
     id: "x"+a,
+    class: 'blue',
     title: allcomments[finds],
-    id:    'cross',
-    style: 'padding: 6px; color: #ee7600; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; line-height:0.5; font-weight: bold;'
-  }); $xmark.appendTo($row);
+    id:    'cross'+a,
+    style: 'padding: 6px; color: #ee7600; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; line-height:0.5; font-weight: bold;transition: all 0.10s;'
+  });
+
+   $xmark.click(function() {var copyText = allcomments[finds]; var inp = document.getElementById('copyinput'); document.getElementById('copyinput').value = copyText; document.getElementById('copyinput').focus(); document.getElementById('copyinput').select(); document.execCommand("copy"); console.log('COPIED!'); });
+   $xmark.appendTo($row);
 
 
 if (numberOfComments > 0) {
@@ -324,20 +353,22 @@ if (numberOfComments > 0) {
 var $link2 = $('<a/>',{
     html:  'SRT (<span style="color:white; font-weight: bolder;">'+numberOfComments+'</span>)',
     href: '#',
-    onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-    onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
+    class:'blue',
+    onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";this.style.transform = "scale(1.05)"',
+    onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";this.style.transform = "scale(1.0)"',
     title: allcomments[finds],
     id:    'srt'+a,
-    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
+    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;transition: all 0.10s;'
   });
 
 var $link3 = $('<a/>',{
     text:  'review page',
     href: '#',
-    onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-    onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
+    class:'blue',
+    onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";this.style.transform = "scale(1.05)"',
+    onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";this.style.transform = "scale(1.0)"',
     id:    'reviewpage',
-    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
+    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; transition: all 0.10s;'
   });
 
 
@@ -364,7 +395,7 @@ var $link5 = $('<a/>',{
     text:  '✓',
     href: '#',
     id: "no"+a,
-    id:    'reviewpage',
+    id:    'vink'+a,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
   }); $link5.appendTo($row);
 
@@ -373,32 +404,129 @@ var $link5 = $('<a/>',{
 };
 function addThumbButton(videoid, a) {
     var $row = $('.table_cell__title_wrapper')[a];
-var $settn = $('<a/>',{
-    text:  'thumb op 3sec',
+
+    var $setleft = $('<a/>',{
+    html:  '- 0.5s',
     href: '#',
     name: "thumb3button",
     class: "thumb3button",
-    onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-    onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-    id:    'thumb'+a,
-    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; display: none;'
+    onmouseover: 'javascript:this.style.backgroundColor = "transparent";this.style.transform = "scale(1.05)"',
+    onmouseout: 'javascript:this.style.backgroundColor = "transparent";this.style.transform = "scale(1.0)"',
+    id:    'thumbleft'+a,
+   style: 'width: 60px; margin-bottom: 6px; text-align: center; height: 20px; color: DarkOrchid; background-color: transparent; display: block; float: right; z-index:999; margin-left:2%; border-radius: 50%; display: none;transition: all 0.15s; font-weight: bold; font-size: 16pt; overflow: visible;'
   });
-$settn.on('click', function() {setThumbnailTo3(videoid, a);});
+
+
+
+
+
+var $settn = $('<a/>',{
+    text:  'still op '+secs+' sec',
+    href: '#',
+    name: "thumb3button",
+    class: "thumb3button",
+    onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";this.style.transform = "scale(1.05)"',
+    onmouseout: 'javascript:this.style.backgroundColor = "DarkOrchid";this.style.transform = "scale(1.0)"',
+    id:    'thumb'+a,
+    style: 'padding: 7px;  color: white; background-color: DarkOrchid; display: block; float: right; z-index:999; margin-left:2%; border-radius: 8px; display: none;transition: all 0.15s; font-weight: normal;'
+  });
+
+
+     var $setright = $('<a/>',{
+    html:  '&#43;0.5s',
+    href: '#',
+    name: "thumb3button",
+    class: "thumb3button",
+    onmouseover: 'javascript:this.style.backgroundColor = "transparent";this.style.transform = "scale(1.05)"',
+    onmouseout: 'javascript:this.style.backgroundColor = "transparent";this.style.transform = "scale(1.0)"',
+    id:    'thumbright'+a,
+    style: 'width: 40px; margin-bottom: 6px; text-align: center; height: 20px; color: DarkOrchid; background-color: transparent; display: block; float: right; z-index:999; margin-left:2%; border-radius: 50%; display: none;transition: all 0.15s; font-weight: bold; font-size: 16pt; overflow: visible;'
+  });
+
+
+
+
+$settn.on('click', function() {setThumbnailTo3(videoid, a, secs);});
+$setleft.on('click', function() {secs = secs-0.5; $settn.text('still op '+secs+' sec'); setThumbnailTo3(videoid, a, secs);});
+$setright.on('click', function() {secs = secs+0.5; $settn.text('still op '+secs+' sec'); setThumbnailTo3(videoid, a, secs);});
+$setleft.appendTo($row);
 $settn.appendTo($row);
+$setright.appendTo($row);
+
 }
 
 
+var page = 1;
 
-(function() {
 
-    'use strict';
 
-addGlobalStyle('.checkbox > span { color: #34495E; padding: 0.5rem 0.25rem; }');
-addGlobalStyle('.checkbox > input { height: 25px;width: 25px;-webkit-appearance: none;-moz-appearance: none;-o-appearance: none;appearance: none;border: 1px solid #34495E;border-radius: 4px;outline: none;transition-duration: 0.3s;background-color: #41B883;cursor: pointer; }');
-addGlobalStyle('.checkbox > input:checked {border: 1px solid #41B883; background-color: #34495E;}');
-addGlobalStyle('.checkbox > input:checked + span::before {content: "\u2713"; display: block; text-align: center; color: #41B883; position: absolute; left: 0.7rem; top: 0.2rem;}');
-addGlobalStyle('.checkbox > input:active {border: 2px solid #34495E;}');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------  START
+
+// ------  START
+
+// ------  START
+
+
+
+function start() {
+
+
+
+
+setTimeout(function() {$('body').children().each, function(b,a) {
+console.log(b);
+var $spinnertje = $('<a/>',{
+    text:  'X',
+    href: '#',
+    id: "no"+a,
+    id:    'vink'+a,
+    style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
+  }); $spinnertje.appendTo(b);
+}}, 2000);
+    token = vimeo.config.api.jwt;
+     'use strict';
+console.dir(vimeo.config);
+var direction = vimeo.config.video_manager.initial_state.sort.direction;
+var listtype = vimeo.config.video_manager.initial_state.sort.type;
+if (direction != "desc" || listtype != "date") {
+
+
+var listtoken = vimeo.xsrft;
+$.ajax({
+        type: 'POST',
+        url: "https://vimeo.com/settings?action=set_video_manager_sort_pref",
+    data: "sort[type]=date&sort[direction]=desc&token="+listtoken,
+    beforeSend: function(request) {
+    request.setRequestHeader("action", "set_video_manager_sort_pref");
+        request.setRequestHeader("Authorization", "jwt "+token);
+    },
+success:  function(a) {console.log('Sorting is omgezet'); location.reload();},
+         error: function(a) {console.log('fout bij omzetten sorting...'); console.log(a);}
+    });
+
+};
 var total = {};
+
 
 opschoonButton();
 thumb3Buttons();
@@ -406,16 +534,17 @@ thumb3Buttons();
 query = window.location.href.replace('https://vimeo.com/manage/videos/search/','');
 zipname = decodeURIComponent(query).replace('#','');
 totalfile = "oO0OoO0OoO0Oo  "+zipname.toUpperCase()+" (correcties) oO0OoO0OoO0Oo \r\n \r\n \r\n \r\n";
-console.dir(vimeo.config);
-    token = vimeo.config.api.jwt;
+
+
 
 
     //AJAX Request search results:
 
     $.ajax({
-         url: "https://api.vimeo.com/users/18516679/videos?fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_event_date%2Cname%2Cpictures.uri%2Cprivacy%2Creview_page%2Curi&per_page=48&sort=date&direction=desc&query="+query,
+         url: "https://api.vimeo.com/users/18516679/videos?fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_event_date%2Cname%2Cpictures.uri%2Cprivacy%2Creview_page%2Curi&per_page=48&page="+page+"&sort=date&direction=desc&query="+query,
 data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_event_date%2Cname%2Cpictures.uri%2Cprivacy%2Creview_page%2Curi&per_page=48&sort=date&direction=desc&query="+query,
          type: "GET",
+        async: true,
      beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname); },
          fail: function(a){
@@ -423,29 +552,69 @@ data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_e
          success: function(a) {console.dir(a);
 a.data.sort(function(a, b) {
    return a.name - b.name}); c = 0;
-  a.data.forEach(function(z,a) {
+
+
+
+
+
+a.data.forEach(function(z,a) {
+var videoid = z.uri;
+var created = z.created_time;
+getYearPlays(videoid,a, created);
+
+});
+
+
+
+
+
+
+
+
+
+a.data.forEach(function(z,a) {
+
+
+
+var $roww = $('.table_cell__title_wrapper')[a];
+var $ticker = $('<a/>',{
+    html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
+    href: '#',
+    id: "ticker"+a,
+    style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
+  }); $ticker.appendTo($roww);
+
+
+
+a = a + (48*((page-1)));
 var w;
 var y;
 //var name;
 var videoid;
 var videolength;
          w = (z.review_page.link);
-name = z.name;
+var name = z.name;
 
          y = w+"/download_notes_csv";
 videoid = z.uri;
+
+
 videoid = videoid.replace("/videos/", "");
+globalIDs.push(videoid);
 videolength = z.duration;
 getEmbed(videoid, a);
+
+
+
 addThumbnailButton(videoid, a);
 
 addVersionsSticker(videoid, a);
 addThumbButton(videoid, a);
 
 var numberOfComments = getNumberOfComments(y);
-if(!numberOfComments) {niet(w,a, videoid);};
+if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);};
 
-if (numberOfComments > 0) {
+if (numberOfComments > 0) { $('#ticker'+a).hide();
 globalnames.push(name);
 
 globallenghts.push(videolength);
@@ -464,11 +633,115 @@ error: function() {
 } catch(e) {}; };
 
 c++;
-         }); }});
-
-})();
+         });
 
 
+
+
+}});
+$('.denker').remove();
+};
+(function() {start();})();
+
+
+function addPlaysSticker(a, yearplays, red, last5months) {
+var colorr = 'gray'; if(last5months < 1) {colorr = 'red'};
+$('#playsdenker'+a).hide();
+var $playsSticker = $('<a/>',{
+    html:  yearplays+' views dit jaar <span style="opacity: 0.4; color: '+colorr+';" id="colorspan">('+last5months+')</span>',
+    title: 'Afgelopen jaar is deze video '+yearplays+' keer afgespeeld.',
+    href: '#',
+    //onmouseover: 'javascript:this.style.transform = "scale(1.08)"',
+    //onmouseout: 'javascript:this.style.transform = "scale(1.08)"',
+    id:    'playsticker'+a,
+    style: 'padding: 7px; color: white; font-weight: bold; background-color: transparent; color: darkgray; position: absolute; right: 37px; top: 25%; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px; opacity: 0.8; transition: all 0.15s;'
+  });
+$playsSticker.click(function() {console.log(videoid);});
+if (yearplays == 1) {$playsSticker.text(yearplays+ ' view dit jaar');};
+var toolong = 0;
+var lasttwomonths = 0;
+
+$playsSticker.attr('title', last5months+' views in laatste 6 maanden');
+if (red == 1) {$playsSticker.css({'color': 'red', display: 'inherit', opacity: 0.7});};
+if (last5months < 1 && red > 1) { $playsSticker.css({display: 'inherit',color: 'red', opacity: 0.7});};
+var $row = $('.table_cell__title_wrapper')[a];
+$playsSticker.appendTo($row);
+
+
+}
+
+
+function getYearPlays(videoid, a, created) {
+var newvideo = false;
+var age = Date.parse(created);
+var now = Date.now(); var diff = (now - age);
+if (diff < 3830464000) {newvideo = true;};  // = als de video ouder is dan 1,5 jaar
+
+
+var $playsDenker = $('<a/>',{
+    html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="15px" height="15px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
+    title: 'Wordt deze video wel gebruikt?',
+    href: '#',
+    class: 'denker',
+    //onmouseover: 'javascript:this.style.backgroundColor = "red";this.style.transform = "scale(1.08)"',
+    //onmouseout: 'javascript:this.style.backgroundColor = "red"; this.style.transform = "scale(1.0)"',
+    id:    'playsdenker'+a,
+    style: 'padding: 7px; color: white; font-weight: bold; background-color: transparent; position: absolute; right: 10px; top: 25%; z-index:999; margin-left:4%; border-radius: 4px; height: 15px; margin-top: 8px; opacity: 1; height: 25px; opacity:0.25;'
+  });
+$playsDenker.click(function() {console.log(videoid);});
+
+var $row = $('.table_cell__title_wrapper')[a];
+$playsDenker.appendTo($row);
+  var dedatum = new Date();
+var jaarEerder = new Date();
+jaarEerder.setFullYear( jaarEerder.getFullYear() - 1 );
+dedatum = dedatum.toISOString().split('T')[0];
+jaarEerder = jaarEerder.toISOString().split('T')[0];
+var ExportLink;
+    $.ajax({
+    type: 'GET',
+
+    url: "https://api.vimeo.com/me/videos/stats?group_by=month&start_date="+jaarEerder+"&end_date="+dedatum+"&per_page=60&page=1&filter_videos="
+        +videoid+"&sort_by=date&direction=desc&fields=range.start_date%2Crange.end_date%2Cplays%2Cfinishes%2Clikes%2Ccomments%2Cloads%2Cdownloads%2Cwatched"
+        +"&csv=/https%3A%2F%2Fapi.vimeo.com%2Fme%2Fvideos%2Fstats%3Fstart_date%3D"+jaarEerder+"%26end_date%3D"+dedatum+"%26fields%3Drange.start_date%2Crange.end_date%2C%2Ccreated_time%2Cplays%2Cfinishes%2Clikes%2Ccomments%2Cloads%2Cdownloads%2Cwatched.mean_percent%26group_by%3Dyear%26per_page%3D15000%26sort_by%3Ddate%2Cdirection%3Dasc",
+     beforeSend: function(request) {
+    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
+success: function(r) { var yearplays;
+var playstotal = []; console.log(r.export_link); ExportLink = r.export_link;
+//r.forEach(function(g, a) {playstotal.push(g[a].plays)});
+
+var csv;
+
+
+    try{var count = r.data.length; for(var q=0; q < count; q++) {playstotal.push(r.data[q].plays);};
+        var stilte = "0"; for(var w = 0; w < playstotal.length; w++) {if(playstotal[w] == 0) {stilte++}; if(playstotal[w] > 0) {stilte = 0;} };
+        var playsave = playstotal;
+        playstotal.splice(12);
+        if (newvideo == true) {stilte = 0;};
+console.dir(playstotal);
+        console.log("nulmaanden: "+stilte);
+        var playstotalyear = playstotal.reduce(add, 0); console.log(playsave);
+playsave= playsave.slice(playsave.length-6, playsave.length);
+        var quartertotal = playsave.reduce(add, 0); console.log(quartertotal);
+        //playstotalyear = playstotalyear;
+        var red = 0;
+        if(playstotalyear < 1 && newvideo == false) {red = 1;};
+
+
+
+
+        if(stilte > 4 && stilte < 13 && newvideo == false) {red = 0};
+        addPlaysSticker(a, playstotalyear, red, quartertotal);} catch(error) {console.log('plays error:'+error);};
+
+},
+fail: function(message) {console.log(message);}
+});
+
+}
+
+function add(accumulator, a) {
+    return accumulator + a;
+}
 function addGlobalStyle(css) {
     var head, style;
     head = document.getElementsByTagName('head')[0];
@@ -582,6 +855,7 @@ oldVersions[videoid] = a.versions[t].id;
 function opschoonButton() {
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
+    class: 'blue',
     title: 'verwijder automatisch alle oudste versies van alle video\'s in deze zoekopdracht...',
     href: '#',
     onmouseover: 'javascript:this.style.backgroundColor = "red";',
@@ -591,22 +865,44 @@ var $opschoonLink = $('<a/>',{
   });
 $opschoonLink.click(function() {allesOpschonen();});
 var $bar2 = $('.topnav_menu_desktop_main')[0];
-$opschoonLink.appendTo($bar2);
+if (page == 1) {$opschoonLink.appendTo($bar2);};
 };
 
 function thumb3Buttons() {
 var $thumb3buttons = $('<a/>',{
-    text:  'show thumbnail buttons',
-    title: 'toon de knoppen om de thumbnail aan te passen',
+    html:  '<b>show</b> thumbnail buttons',
+    title: 'Toon de knoppen om de thumbnail aan te passen...',
     href: '#',
-    onmouseover: 'javascript:this.style.backgroundColor = "red";',
-    onmouseout: 'javascript:this.style.backgroundColor = "darkred";',
+    onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
+    onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet ";',
     id:    'thumbsbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: darkred; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: BlueViolet ; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
   });
-$thumb3buttons.click(function() {if(!showhidethumb) {$('.thumb3button').show();}});
-var $bar2 = $('.topnav_menu_desktop_main')[0];
-$thumb3buttons.appendTo($bar2);
+$thumb3buttons.click(function() {if(!showhidethumb) {$thumb3buttons.toggleHTML('<b>hide</b> thumbnail buttons', '<b>show</b> thumbnail buttons'); $('.thumb3button').toggle(); $('.blue').toggle();
+        }});
+
+
+
+    var $bar2 = $('.topnav_menu_desktop_main')[0];
+if (page == 1) {$thumb3buttons.appendTo($bar2);};
+
+var $allThumbsButton = $('<a/>',{
+    html:  '&#x27A4; alles op 3sec',
+    title: 'Zet alle thumbnails op de 3 seconde-frame... (want daar zit normaal het startscherm, behalve bij de leraren)...',
+    href: '#',
+    class: 'thumb3button',
+    onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
+    onmouseout: 'javascript:this.style.backgroundColor = "DarkOrchid";',
+    id:    'thumbsallbutton',
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: DarkMagenta; display: none; float: right; z-index:999; margin-left:1.4%; border-radius: 8px; height: 25px; margin-top: 8px;'
+  });
+$allThumbsButton.click(function() {setAllThumbnails(resetsecs);});
+
+$allThumbsButton.appendTo($bar2);
+
+
+
+
 };
 
 
@@ -640,18 +936,27 @@ alert("Alle oudste versies zijn verwijderd! Klik nogmaals om voorlaatste versies
 location.reload();
 }
 
-function setThumbnailTo3(videoid, a) {
-var qq = $('.table_cell__thumb-wrapper')[a].children[0].children[0].children[0];
-qq.style.backgroundImage = "url('https://loading.io/spinners/camera/index.svg')";
-qq.backgroundSize = 'contain';
+function setThumbnailTo3(videoid, a, secs) {
+var qq = $('.table_cell__thumb-wrapper')[a].children[0].children[0].children[0];qq.backgroundPosition = "-150px 0px";
+qq.style.backgroundImage = "url('https://loading.io/spinners/coolors/index.palette-rotating-ring-loader.svg')";
+
 
 $.ajax({
          url: "https://api.vimeo.com/videos/"+videoid+"/pictures",
 
          type: "POST",
-    data:{active: true, time:'3.5'},
+    data:{active: true, time:secs},
     beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token);},
     success: function(v) {$('thumb'+a).hide(); qq.style.backgroundImage = "url("+v.sizes[2].link+")";}
 });
 }
+
+function setAllThumbnails(resetsecs) {
+
+var co = 0;
+globalIDs.forEach(function(b,x) {
+setThumbnailTo3(b,co, resetsecs); co++;
+});}
+
+$(document).on('click', function(a) {try{if(a.toElement.textContent == "Load more…") {setTimeout(function() {page++; start()}, 1200);}} catch(e) {}});
