@@ -13,7 +13,7 @@ function onEdit() {
     
     
     
-    if( r.getColumn() != 2 ) { //checks the column
+    if( r.getColumn() != 0 ) { //checks the column
       var row = r.getRow();
       //Browser.msgBox(row);
       var time = new Date();
