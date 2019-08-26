@@ -126,7 +126,7 @@ var videoinfo = $.ajax({
         type: 'POST',
         url: "https://vimeo.com/upload/_get_image_url",
      data: {type: "video", id: videoid},
-         success: function(a) {console.log("upload link verkrijgen gelukt"); console.dir(a); uploadThumbnail(videoid, a);},
+         success: function(a) {console.log("upload link verkrijgen gelukt"); uploadThumbnail(videoid, a);},
          error: function(a) {console.log('fout bij opvragen video-info voor thumbnail...');}
     });
 
@@ -175,7 +175,7 @@ var $link4 = $('<a/>',{
   });
 $link4.on('click', function() {
 
-    $('input[id=fileid]').trigger('click'); $('input[id=fileid]').on('change', function() { console.dir($("#fileid")[0].files[0]);
+    $('input[id=fileid]').trigger('click'); $('input[id=fileid]').on('change', function() { 
 
 var r = new FileReader();
 
@@ -358,7 +358,7 @@ var $link2 = $('<a/>',{
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";this.style.transform = "scale(1.0)"',
     title: allcomments[finds],
     id:    'srt'+a,
-    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;transition: all 0.10s;'
+    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:2%; border-radius: 4px;transition: all 0.10s; display: none;'
   });
 
 var $link3 = $('<a/>',{
@@ -367,9 +367,15 @@ var $link3 = $('<a/>',{
     class:'blue',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";this.style.transform = "scale(1.05)"',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";this.style.transform = "scale(1.0)"',
-    id:    'reviewpage',
-    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; transition: all 0.10s;'
+    id:    'reviewpage'+a,
+    style: 'padding: 6px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; transition: all 0.10s; display: none;'
   });
+
+
+
+
+
+
 
 
 
@@ -386,7 +392,8 @@ $link3.on('click', function() {openReviewPage(r);});
 $link2.appendTo($row);
 $link3.appendTo($row);
 };
-
+$('.table_cell__title_wrapper').on('mouseover', function(e) { var ind = e.target.parentNode.parentNode.sectionRowIndex; console.log(ind); $('#srt'+ind).fadeIn(0.15); $('#reviewpage'+ind).fadeIn(0.15);   });
+$('.table_cell__title_wrapper').on('mouseleave', function(e) { var ind = e.target.parentNode.parentNode.sectionRowIndex; $('#srt'+ind).fadeOut(0.1);   $('#reviewpage'+ind).fadeOut(0.1);  });
 };
 function openReviewPage(link) {window.open(link);}
 function niet(r, a, videoid) {
@@ -505,7 +512,7 @@ var $spinnertje = $('<a/>',{
 }}, 2000);
     token = vimeo.config.api.jwt;
      'use strict';
-console.dir(vimeo.config);
+//console.dir(vimeo.config);
 var direction = vimeo.config.video_manager.initial_state.sort.direction;
 var listtype = vimeo.config.video_manager.initial_state.sort.type;
 if (direction != "desc" || listtype != "date") {
@@ -656,7 +663,7 @@ var $playsSticker = $('<a/>',{
     id:    'playsticker'+a,
     style: 'padding: 7px; color: white; font-weight: bold; background-color: transparent; color: darkgray; position: absolute; right: 37px; top: 25%; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px; opacity: 0.8; transition: all 0.15s;'
   });
-$playsSticker.click(function() {console.log(videoid);});
+$playsSticker.click(function() {});
 if (yearplays == 1) {$playsSticker.text(yearplays+ ' view dit jaar');};
 var toolong = 0;
 var lasttwomonths = 0;
@@ -718,11 +725,13 @@ var csv;
         var playsave = playstotal;
         playstotal.splice(12);
         if (newvideo == true) {stilte = 0;};
-console.dir(playstotal);
-        console.log("nulmaanden: "+stilte);
-        var playstotalyear = playstotal.reduce(add, 0); console.log(playsave);
+//console.dir(playstotal);
+       // console.log("nulmaanden: "+stilte);
+        var playstotalyear = playstotal.reduce(add, 0);
+        //console.log(playsave);
 playsave= playsave.slice(playsave.length-6, playsave.length);
-        var quartertotal = playsave.reduce(add, 0); console.log(quartertotal);
+        var quartertotal = playsave.reduce(add, 0);
+        //console.log(quartertotal);
         //playstotalyear = playstotalyear;
         var red = 0;
         if(playstotalyear < 1 && newvideo == false) {red = 1;};
@@ -837,9 +846,9 @@ var $commentCountDiv = $('<div/>',
                          {id: "versiondiv"+a,
                           "z-index": "99999",
                           onclick:"window.open('https://vimeo.com/manage/"+videoid+"/collaboration')",
-                          style:"width: auto; height: 25px; border-radius: 4px; margin: 5px; margin-left: 12px; padding: auto; padding-top: 6px; padding-left:9px; padding-right:9px; font-weight: bold; background-color: darkred; color: white; float: right; opacity:0.7;",
+                          style:"width: auto; height: 25px; border-radius: 4px; margin: 5px; margin-left: 12px; padding: auto; padding-top: 3px; padding-left:9px; padding-right:9px; font-weight: bold; background-color: darkred; color: white; opacity:0.4; display: inline-block; left: 300px; ",
                           html: "versie "+versionsCount});
-var $row = $('.table_cell__title_wrapper')[b];
+var $row = $('.table_cell__title')[b];
 $commentCountDiv.appendTo($row);
 for(var t = 1; t < versionsCount; t++) {
 oldVersions[videoid] = a.versions[t].id;
@@ -928,7 +937,7 @@ Referer: "https://vimeo.com/manage/"+videoid+"/collaboration",
 "Accept-Language": "nl-NL,nl;q=0.9,en-US;q=0.8,en;q=0.7"},
 
          fail: function(a){
-       console.log(videoid+" MISLUKT om te verwijderen"); console.dir(a);},
+       console.log(videoid+" MISLUKT om te verwijderen"); },
          success: function(a) {console.log(videoid+" gelukt om te verwijderen");}
  });
 });
@@ -960,3 +969,9 @@ setThumbnailTo3(b,co, resetsecs); co++;
 });}
 
 $(document).on('click', function(a) {try{if(a.toElement.textContent == "Load more…") {setTimeout(function() {page++; start()}, 1200);}} catch(e) {}});
+
+
+
+
+
+
