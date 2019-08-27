@@ -175,7 +175,7 @@ var $link4 = $('<a/>',{
   });
 $link4.on('click', function() {
 
-    $('input[id=fileid]').trigger('click'); $('input[id=fileid]').on('change', function() { 
+    $('input[id=fileid]').trigger('click'); $('input[id=fileid]').on('change', function() {
 
 var r = new FileReader();
 
@@ -651,11 +651,12 @@ $('.denker').remove();
 (function() {start();})();
 
 
-function addPlaysSticker(a, yearplays, red, last5months) {
+function addPlaysSticker(a, yearplays, red, last5months, avg) {
 var colorr = 'gray'; if(last5months < 1) {colorr = 'red'};
+$('.video_manager__table_cell--privacy').each(function(a, obj) {if(obj.innerText == 'Only me') {obj.style.color = 'red'; obj.style.fontWeight = 'bold';};});
 $('#playsdenker'+a).hide();
 var $playsSticker = $('<a/>',{
-    html:  yearplays+' views dit jaar <span style="opacity: 0.4; color: '+colorr+';" id="colorspan">('+last5months+')</span>',
+    html:  yearplays+' views dit jaar <span style="opacity: 0.5; color: '+colorr+';" id="colorspan">('+last5months+' views laatste 5 maanden)    ('+Math.round(avg)+'% average viewtime)</span>',
     title: 'Afgelopen jaar is deze video '+yearplays+' keer afgespeeld.',
     href: '#',
     //onmouseover: 'javascript:this.style.transform = "scale(1.08)"',
@@ -714,13 +715,13 @@ var ExportLink;
      beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
 success: function(r) { var yearplays;
-var playstotal = []; console.log(r.export_link); ExportLink = r.export_link;
+var playstotal = []; var meanstotal = []; console.log(r.data[1].watched.mean_percent); console.log(r.export_link); ExportLink = r.export_link;
 //r.forEach(function(g, a) {playstotal.push(g[a].plays)});
 
 var csv;
 
 
-    try{var count = r.data.length; for(var q=0; q < count; q++) {playstotal.push(r.data[q].plays);};
+    try{var count = r.data.length; for(var q=0; q < count; q++) {playstotal.push(r.data[q].plays); if(r.data[q].plays > 1) {meanstotal.push(r.data[q].watched.mean_percent);};};
         var stilte = "0"; for(var w = 0; w < playstotal.length; w++) {if(playstotal[w] == 0) {stilte++}; if(playstotal[w] > 0) {stilte = 0;} };
         var playsave = playstotal;
         playstotal.splice(12);
@@ -734,13 +735,23 @@ playsave= playsave.slice(playsave.length-6, playsave.length);
         //console.log(quartertotal);
         //playstotalyear = playstotalyear;
         var red = 0;
+
+        var sum = 0;
+for( var i = 0; i < meanstotal.length; i++ ){
+    sum += parseInt( meanstotal[i], 10 ); //don't forget to add the base
+}
+
+var avg = sum/meanstotal.length; console.log("Avarage: "+avg);
+
+
+
         if(playstotalyear < 1 && newvideo == false) {red = 1;};
 
 
 
 
         if(stilte > 4 && stilte < 13 && newvideo == false) {red = 0};
-        addPlaysSticker(a, playstotalyear, red, quartertotal);} catch(error) {console.log('plays error:'+error);};
+        addPlaysSticker(a, playstotalyear, red, quartertotal, avg);} catch(error) {console.log('plays error:'+error);};
 
 },
 fail: function(message) {console.log(message);}
