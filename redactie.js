@@ -3,7 +3,7 @@
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
 // @version     1.0
-// @grant   none
+// @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
 // https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
@@ -11,7 +11,7 @@
 
 
 // ==/UserScript==
-// Author:      Luuk van den Hoogen
+// Author:   Luuk van den Hoogen
 // Date:     2019-15-september
 
 $.noConflict();
