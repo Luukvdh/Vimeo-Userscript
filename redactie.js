@@ -2,8 +2,8 @@
 // @name        Redactie E-WISE Vimeo script v1.0
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     1.0
-// @grant       none
+// @version 1
+// @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
 // https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
@@ -11,7 +11,7 @@
 
 
 // ==/UserScript==
-// Author:   Luuk van den Hoogen
+// Author:      Luuk van den Hoogen
 // Date:     2019-15-september
 
 $.noConflict();
@@ -27,8 +27,9 @@ function start(page) {
     //console.log(vimeo.config.video_manager.initial_state.sort.type);
     var direction = vimeo.config.video_manager.initial_state.sort.direction;
     var sort = vimeo.config.video_manager.initial_state.sort.type;
+    var sorttype = vimeo.config.video_manager.initial_state.presentation.layout;
     if (sort == "lastUserActionEventDate") {sort = "last_user_action_event_date"};
-    if (direction != "desc" || sort != "date") {
+    if ((direction != "desc" || sort != "date") || (sorttype =='GRID_LAYOUT')) {
 
 
 
@@ -40,7 +41,19 @@ $.ajax({
     request.setRequestHeader("action", "set_video_manager_sort_pref");
         request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt);
     },
-success:  function() {console.log('Sorting is omgezet'); location.reload();},
+success:  function() {console.log('Sorting is omgezet');},
+         error: function(a) {console.log('fout bij omzetten sorting...'); console.log(a);}
+    });
+
+$.ajax({
+        type: 'POST',
+        url: "https://vimeo.com/settings?action=set_video_manager_layout_pref",
+    data: "layout=LIST_LAYOUT&token="+vimeo.xsrft,
+    beforeSend: function(request) {
+    request.setRequestHeader("action", "set_video_manager_sort_pref");
+        request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt);
+    },
+success:  function() {console.log('Layout is omgezet'); location.reload();},
          error: function(a) {console.log('fout bij omzetten sorting...'); console.log(a);}
     });
 
