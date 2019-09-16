@@ -162,7 +162,7 @@ function getStats(videoid, a, idarray, lengtharray) {
                                   var $playsSticker = $('<a/>',{
                                       html:  '</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; views: <span style="color: gray; font-weight: bold;">'+plays+'&nbsp;&nbsp;</span> watched:  <span id="percentagespan'+number+'" style="font-weight: bold;">'+mean_watched+'%</span><a href="https://www.vimeo.com/manage/'+idarray[number]+'/stats"><svg width="14px" height="14px" style="opacity: 0.5; margin-left: 10px; margin-right: 10px;" viewBox="0 0 17 17"><path fill="gray" d="M3 17a1 1 0 0 1-1-1v-5a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1zm4 0a1 1 0 0 1-1-1V8a1 1 0 1 1 2 0v8a1 1 0 0 1-1 1zm4 0a1 1 0 0 1-1-1v-5a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1zm4 0a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v7a1 1 0 0 1-1 1z" fill="#1a2e3b"></path><path d="M11 7a1 1 0 0 1-.71-.29L6 2.41l-4.29 4.3A1.004 1.004 0 0 1 .29 5.29l5-5a1 1 0 0 1 1.41 0l4.3 4.3L15.29.3a1 1 0 0 1 1.41 1.41l-5 5A1 1 0 0 1 11 7z" fill="#1a2e3b"></path></svg></a>',
                                       title:
-                                      'finished: '+finishes+' \n(van begin tot eind gekeken door '+finishes+' kijkers)',
+                                      'finished: '+finishes+' \n(= '+Math.round((finishes/plays)*100)+'% zag het einde van de video)',
                                       href: '#',
                                       name: 'playsticker',
                                       id:    'playsticker'+a,
@@ -196,6 +196,18 @@ function getElementByXpath(path) {
     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
 
+$('#search-input').bind("enterKey",function(e){
+   e.preventDefault();
+   console.log(e);
+   var searchstring = e.target.defaultValue;
+   location.href = "https://vimeo.com/manage/videos/search/"+encodeURIComponent(searchstring);
+});
+$('#search-input').keydown(function(e){
 
+    if(e.keyCode == 13)
+    {
+        $(this).trigger("enterKey");
+    }
+});
 
 
