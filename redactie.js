@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Redactie E-WISE Vimeo script v1.0
 // @namespace   ewise
-// @include     https://vimeo.com/manage/videos/search/*
+// @include     https://vimeo.com/manage/*
 // @version 1
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
@@ -17,14 +17,14 @@
 $.noConflict();
 
 
+// =================== START SEARCH ===========================
+
+function startSearch() {
 
 
-function start(page) {
     var query = window.location.href.replace('https://vimeo.com/manage/videos/search/','');
 
-    console.dir(vimeo.config);
-    //console.log(vimeo.config.video_manager.initial_state.sort.direction);
-    //console.log(vimeo.config.video_manager.initial_state.sort.type);
+
     var direction = vimeo.config.video_manager.initial_state.sort.direction;
     var sort = vimeo.config.video_manager.initial_state.sort.type;
     var sorttype = vimeo.config.video_manager.initial_state.presentation.layout;
@@ -98,11 +98,103 @@ success:  function() {console.log('Layout is omgezet'); location.reload();},
 
                               getStats(allids, countresults, idarray, lengtharray);
                              }});
+    $(document).on('click', function(a) {if(a.toElement.textContent == "Load more…") {setTimeout(function() {jQuery( "[name='playsticker']" ).remove(); startSearch()}, 1000);}});
+}
+// =================== START FOLDER ===========================
+
+function startFolder() {
+
+
+    var query = window.location.href.replace('https://vimeo.com/manage/folders/',''); console.log(query);
+
+
+    var direction = vimeo.config.video_manager.initial_state.sort.direction;
+    var sort = vimeo.config.video_manager.initial_state.sort.type;
+    var sorttype = vimeo.config.video_manager.initial_state.presentation.layout;
+    if (sort == "lastUserActionEventDate") {sort = "last_user_action_event_date"};
+    if ((direction != "desc" || sort != "date") || (sorttype =='GRID_LAYOUT')) {
+
+
+
+$.ajax({
+        type: 'POST',
+        url: "https://vimeo.com/settings?action=set_video_manager_sort_pref",
+    data: "sort[type]=date&sort[direction]=desc&token="+vimeo.xsrft,
+    beforeSend: function(request) {
+    request.setRequestHeader("action", "set_video_manager_sort_pref");
+        request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt);
+    },
+success:  function() {console.log('Sorting is omgezet');},
+         error: function(a) {console.log('fout bij omzetten sorting...'); console.log(a);}
+    });
+
+$.ajax({
+        type: 'POST',
+        url: "https://vimeo.com/settings?action=set_video_manager_layout_pref",
+    data: "layout=LIST_LAYOUT&token="+vimeo.xsrft,
+    beforeSend: function(request) {
+    request.setRequestHeader("action", "set_video_manager_sort_pref");
+        request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt);
+    },
+success:  function() {console.log('Layout is omgezet'); location.reload();},
+         error: function(a) {console.log('fout bij omzetten sorting...'); console.log(a);}
+    });
+
+};
+    var token;
+    var allids = "";
+    var idarray = [];
+    var lengtharray = [];
+
+    var countresults = 0;
+    var zipname = decodeURIComponent(query).replace('#','');
+    $.ajax({
+        url: "https://api.vimeo.com/users/18516679/projects/"+query+"/videos?fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_event_date%2Cname%2Cpictures.uri%2Cprivacy%2Creview_page%2Curi&per_page=100&sort=date&direction=desc",
+        //data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_event_date%2Cname%2Cpictures.uri%2Cprivacy%2Creview_page%2Curi&per_page=100&sort=date&direction=desc",
+        type: "GET",
+        async: true,
+        beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json");},
+        fail: function(a){
+            console.log('request failed');},
+        success: function(a) {console.dir(a);
+                              //a.data.sort(function(a, b) {
+                                  //return a.name - b.name});
+
+
+
+
+
+                              a.data.forEach(function(z,a) {
+                                  countresults++;
+                                  var uri = z.uri;
+                                  var videoid = uri.replace('/videos/','');
+                                  idarray.push(videoid);
+                                  lengtharray.push(z.duration);
+
+
+                                  allids = allids+"/videos/"+videoid+",";
+
+                              });
+                              allids = allids.substring(0,(allids.length-1));
+
+
+                              getStats(allids, countresults, idarray, lengtharray);
+                             }});
+    $(document).on('click', function(a) {if(a.toElement.textContent == "Load more…") {setTimeout(function() {jQuery( "[name='playsticker']" ).remove(); startFolder()}, 1000);}});
 }
 
 function getStats(videoid, a, idarray, lengtharray) {
-    console.log(videoid);
+var newjwt;
+    $.ajax({
+        type: 'GET',
 
+        url: "https://vimeo.com/manage/342965848/services/stats",
+        beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
+        success: function(r) {console.dir(r); newjwt = r.jwt; getStats2(videoid, a, idarray, lengtharray, newjwt); }});  }
+function getStats2(videoid, a, idarray, lengtharray, newjwt) {
+console.log(newjwt);
     for (var q = 0; q < a; q++) {
         var xpath = "/html/body/div[1]/div[2]/main/div/div/div[1]/div[1]/div/div[2]/div/div/div/div[1]/section/div/div[2]/div/div/div[1]/div/table/tbody/tr["+(q+1)+"]/td[3]/div";
         var elem = getElementByXpath(xpath);
@@ -126,7 +218,7 @@ function getStats(videoid, a, idarray, lengtharray) {
 
         url: "https://api.vimeo.com/me/videos/stats?start_date=2012-08-16&end_date="+datum+"&group_by=video&filter_videos="+videoid+"&fields=plays,finishes,watched,loads&per_page=100",
         beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
+            request.setRequestHeader("Authorization", "jwt "+newjwt); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
         success: function(r) { console.log(r); $('.denker').hide();
 
 
@@ -186,9 +278,12 @@ function getStats(videoid, a, idarray, lengtharray) {
 
 (function() {
     'use strict';
+var url = location.href;
+if (url.includes('search')) {startSearch();};
+if (url.includes('folders')) {startFolder();};
 
-    start();
-    $(document).on('click', function(a) {if(a.toElement.textContent == "Load more…") {setTimeout(function() {jQuery( "[name='playsticker']" ).remove(); start()}, 1000);}});
+
+
 
 })();
 
