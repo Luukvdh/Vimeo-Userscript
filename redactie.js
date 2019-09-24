@@ -193,8 +193,10 @@ var newjwt;
         beforeSend: function(request) {
             request.setRequestHeader("Authorization", "jwt "+vimeo.config.api.jwt); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
         success: function(r) {console.dir(r); newjwt = r.jwt; getStats2(videoid, a, idarray, lengtharray, newjwt); }});  }
+
+
 function getStats2(videoid, a, idarray, lengtharray, newjwt) {
-console.log(newjwt);
+
     for (var q = 0; q < a; q++) {
         var xpath = "/html/body/div[1]/div[2]/main/div/div/div[1]/div[1]/div/div[2]/div/div/div/div[1]/section/div/div[2]/div/div/div[1]/div/table/tbody/tr["+(q+1)+"]/td[3]/div";
         var elem = getElementByXpath(xpath);
