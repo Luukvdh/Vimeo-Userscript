@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Redactie E-WISE Vimeo script v1.0
+// @name        Redactie E-WISE Vimeo script
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*
 // @version     1.3
