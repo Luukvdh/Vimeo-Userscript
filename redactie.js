@@ -2,12 +2,10 @@
 // @name        Redactie E-WISE Vimeo script
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*
-// @version     1.7
+// @version     1.8
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-// https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
-// https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
-// https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js
+
 
 
 // ==/UserScript==
