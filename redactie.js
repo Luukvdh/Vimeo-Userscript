@@ -2,7 +2,7 @@
 // @name        Redactie E-WISE Vimeo script
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*
-// @version     1.8
+// @version     v1.1
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -260,7 +260,7 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
                                       id:    'playsticker'+a,
                                       style: 'text-align: left; position: absolute; right: 30px; width: 200px;'
                                   }); $playsSticker.appendTo(elem);
-                                  if (plays > 6) {$('#percentagespan'+number).css({color: 'rgb(' + ((100 - mean_watched) *8.56) +',' + (mean_watched *2.0) +',0)'});};
+                                  if (plays > 6 && !elem.innerText.includes('Preview') && !elem.innerText.includes('preview')) {$('#percentagespan'+number).css({color: 'rgb(' + ((100 - mean_watched) *8.56) +',' + (mean_watched *2.0) +',0)'});};
 
 
                               }
