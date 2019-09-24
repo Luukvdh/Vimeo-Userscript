@@ -652,29 +652,6 @@ $('.denker').remove();
 
 
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
-var colorr = 'gray'; if(last5months < 1) {colorr = 'red'};
-$('.video_manager__table_cell--privacy').each(function(a, obj) {if(obj.innerText == 'Only me') {obj.style.color = 'red'; obj.style.fontWeight = 'bold';};});
-$('#playsdenker'+a).hide();
-var $playsSticker = $('<a/>',{
-    html:  yearplays+' views dit jaar <span style="opacity: 0.5; color: '+colorr+';" id="colorspan">('+last5months+' views laatste 5 maanden)    ('+Math.round(avg)+'% average viewtime)</span>',
-    title: 'Afgelopen jaar is deze video '+yearplays+' keer afgespeeld.',
-    href: '#',
-    //onmouseover: 'javascript:this.style.transform = "scale(1.08)"',
-    //onmouseout: 'javascript:this.style.transform = "scale(1.08)"',
-    id:    'playsticker'+a,
-    style: 'padding: 7px; color: white; font-weight: bold; background-color: transparent; color: darkgray; position: absolute; right: 37px; top: 25%; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px; opacity: 0.8; transition: all 0.15s;'
-  });
-$playsSticker.click(function() {});
-if (yearplays == 1) {$playsSticker.text(yearplays+ ' view dit jaar');};
-var toolong = 0;
-var lasttwomonths = 0;
-
-$playsSticker.attr('title', last5months+' views in laatste 6 maanden');
-if (red == 1) {$playsSticker.css({'color': 'red', display: 'inherit', opacity: 0.7});};
-if (last5months < 1 && red > 1) { $playsSticker.css({display: 'inherit',color: 'red', opacity: 0.7});};
-var $row = $('.table_cell__title_wrapper')[a];
-$playsSticker.appendTo($row);
-
 
 }
 
