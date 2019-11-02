@@ -6,7 +6,7 @@ var file = "";
 var timecode = "0";
 var comment = "";
 var thisline = "";
-var allComments = [];
+var allcomments = [];
 var totalline = "";
 var currentArray;
 var date;
@@ -53,7 +53,7 @@ position++;
 if (a>0) {thesecomments.push(arr[2]+" : "+arr[4]+" \r\n");};
 
 });
-
+allcomments.push(thesecomments.join(""));
 
 return file;
  }
