@@ -79,7 +79,7 @@ function getSRT(r, name, boolean) {
     var responsetext = (req.responseText);
     if(responsetext.includes(",,,,,,,")) {var j = responsetext.indexOf(",,,,,,,"); responsetext = responsetext.substr(0,j);};
     var responsetextsrt = convertCSVtoSRT(responsetext);
-    name = req.name;
+    
        return responsetextsrt;
     };
 
