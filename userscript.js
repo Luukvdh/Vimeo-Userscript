@@ -796,7 +796,9 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 }});
 
 var position = 1;
+console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
+if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};    
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
 file = file + thisline; oldnumber = digit;
 position++;
