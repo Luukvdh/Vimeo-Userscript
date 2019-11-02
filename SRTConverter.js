@@ -6,7 +6,7 @@ var file = "";
 var timecode = "0";
 var comment = "";
 var thisline = "";
-
+var allComments = [];
 var totalline = "";
 var currentArray;
 var date;
