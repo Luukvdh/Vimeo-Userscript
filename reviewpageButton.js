@@ -74,7 +74,8 @@
 
 
     $button4.on('click', function() {
-        var yy = window.href+"/download_notes_csv";
+        var yy = window.location.href; yy = yy.replace('#', '');
+        yy = yy+"/download_notes_csv"; console.log(yy); 
         var name = document.title; name = name.replace(" on Vimeo", "");
         var blob = new Blob([getSRT(yy, name)], {type: "text/plain;charset=utf-8"});
         saveAs(blob, name+".srt");
