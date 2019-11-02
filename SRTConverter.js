@@ -69,7 +69,7 @@ return newtimecode;
 
 function getSRT(r, name, boolean) {
 
-
+    console.log("url is "+r);
 
     var req =  $.ajax({
     
