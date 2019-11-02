@@ -6,6 +6,8 @@
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
+// @require     https://raw.githubusercontent.com/ewisenl/Vimeo-Userscript/master/SRTConverter.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js
 
 // ==/UserScript==
 
@@ -15,7 +17,7 @@
 (function() {
 
     var xpathResult = getElementByXpath("/html/body/div[1]/div/div[1]");
-    console.log(xpathResult);
+    
   
     var foundtitle = document.title; foundtitle = foundtitle.toString();
     foundtitle = foundtitle.substring(0, foundtitle.length - 9);
@@ -58,19 +60,22 @@
       });
     $button3.appendTo(xpathResult);
 
-    var $button3 = $('<a/>',{
+    var $button4 = $('<a/>',{
         text:  'download SRT',
+        href:   '#',
         id:    'downloadSRT',
         onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
         onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: "purple"; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px;'
+        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px;'
       });
-    $button3.appendTo(xpathResult);
+   
 
 
 
 
     $button4.on('click', function() {
+        var yy = window.href+"/download_notes_csv";
+        var name = document.title; name = name.replace(" on Vimeo", "");
         var blob = new Blob([getSRT(yy, name)], {type: "text/plain;charset=utf-8"});
         saveAs(blob, name+".srt");
         });

@@ -53,7 +53,7 @@ position++;
 if (a>0) {thesecomments.push(arr[2]+" : "+arr[4]+" \r\n");};
 
 });
-allcomments.push(thesecomments.join(""));
+
 
 return file;
  }
