@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @include     https://vimeo.com/manage/videos
-// @include     https://vimeo.com/manage/folders*
+// @include     https://vimeo.com/manage/folders
 // @description  try to take over the world!
 // @author       You
 // @match        http://*/*
