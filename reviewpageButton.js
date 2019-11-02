@@ -17,7 +17,7 @@
 (function() {
 
     var xpathResult = getElementByXpath("/html/body/div[1]/div/div[1]");
-    
+    xpathResult.style.backgroundColor = "#1F1F1F";
   
     var foundtitle = document.title; foundtitle = foundtitle.toString();
     foundtitle = foundtitle.substring(0, foundtitle.length - 9);
@@ -46,7 +46,7 @@
         id:    'zoekcursus',
         onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
         onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 10px;'
+        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 10px; margin-top: 5px;'
       });
     $button2.appendTo(xpathResult);
   
@@ -56,7 +56,7 @@
         id:    'instellingen',
         onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
         onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px;'
+        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
       });
     $button3.appendTo(xpathResult);
 
@@ -64,9 +64,9 @@
         text:  'download SRT',
         href:   '#',
         id:    'downloadSRT',
-        onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-        onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px;'
+        onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
+        onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet";',
+        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
       });
    
 
