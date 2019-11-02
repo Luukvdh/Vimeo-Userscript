@@ -76,7 +76,7 @@ function getSRT(r, name, boolean) {
             type: 'GET',
             url: r,
         async: false});
-    var responsetext = (req.responseText);
+    var responsetext = (req.responseText); console.log(responsetext); console.log('hoi');
     if(responsetext.includes(",,,,,,,")) {var j = responsetext.indexOf(",,,,,,,"); responsetext = responsetext.substr(0,j);};
     var responsetextsrt = convertCSVtoSRT(responsetext);
     
