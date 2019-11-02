@@ -5,6 +5,8 @@
 // @version 1
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
+
 // ==/UserScript==
 
 // Author:      Luuk van den Hoogen
@@ -55,6 +57,25 @@
         style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px;'
       });
     $button3.appendTo(xpathResult);
+
+    var $button3 = $('<a/>',{
+        text:  'download SRT',
+        id:    'downloadSRT',
+        onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
+        onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
+        style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: "purple"; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px;'
+      });
+    $button3.appendTo(xpathResult);
+
+
+
+
+    $button4.on('click', function() {
+        var blob = new Blob([getSRT(yy, name)], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, name+".srt");
+        });
+    $button4.appendTo(xpathResult);
+    
   
     })();
   
