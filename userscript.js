@@ -837,7 +837,7 @@ var $commentCountDiv = $('<div/>',
                           "z-index": "99999",
                           onclick:"window.open('https://vimeo.com/manage/"+videoid+"/collaboration')",
                           style:"width: auto; height: 25px; border-radius: 4px; margin: 5px; margin-left: 12px; padding: auto; padding-top: 3px; padding-left:9px; padding-right:9px; font-weight: bold; background-color: darkred; color: white; opacity:0.4; display: inline-block; left: 300px; ",
-                          html: "versie "+versionsCount});
+                          html: versionsCount+" versies"});
 var $row = $('.table_cell__title')[b];
 $commentCountDiv.appendTo($row);
 for(var t = 1; t < versionsCount; t++) {
