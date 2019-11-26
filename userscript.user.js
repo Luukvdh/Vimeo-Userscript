@@ -653,7 +653,7 @@ if(e.keyCode == 96) {
 $('.message').hide();
 $('.editors').fadeToggle(250);
 };
-    
+
 });
 
 };
@@ -732,7 +732,7 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 var position = 1;
 console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
-if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};    
+if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
 file = file + thisline; oldnumber = digit;
 position++;
@@ -787,7 +787,7 @@ oldVersions[videoid] = a.versions[t].id;
 
 function opschoonButton() {
     var $bar2 = $('.topnav_menu_desktop_main')[0];
-$('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);    
+$('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
     class: 'blue editors',
