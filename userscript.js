@@ -649,10 +649,8 @@ c++;
 $('.denker').remove();
 };
 (function() {
-    
-    var thisurl = window.location.href;
-    if(thisurl.includes('manage/videos/search')) {     
-start();}})();
+      
+start()})();
 
 
 function addPlaysSticker(a, yearplays, red, last5months, avg) {

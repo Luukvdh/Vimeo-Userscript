@@ -10,8 +10,7 @@
 // Date:     2019-26-juli
 
 (function() {
-  var thisurl = window.location.href;
-  if(thisurl.includes('manage')) { 
+ 
 
   var xpathResult = getElementByXpath("/html/body/div[1]/div[2]/main/div/div[1]/div[1]/span");
   
@@ -44,7 +43,7 @@
     });
   $button.appendTo(xpathResult);
   
-  }})();
+  })();
   
   function getElementByXpath(path) {
     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;

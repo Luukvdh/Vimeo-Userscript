@@ -36,10 +36,9 @@ $button.appendTo($target);
 
 };
 (function() {
-  var thisurl = window.location.href;
-  if(thisurl.includes('manage')) {   
+  
 goToWork();
-}})();
+})();
 
 
 function findTitle(input) {

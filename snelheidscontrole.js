@@ -13,9 +13,7 @@
 // Date:     2019-26-november
 
 (function() {
-var thisurl = window.location.href;
-console.log(thisurl);
-if(thisurl.includes('review')) { 
+
     var videoelem;
     var buttonelem;
     var clickarea;
@@ -72,7 +70,7 @@ if(thisurl.includes('review')) {
     
     });
     
-};})();
+;})();
     
     function getElementByXpath(path) {
           return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
