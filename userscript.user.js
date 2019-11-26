@@ -303,11 +303,11 @@ name = req.name;
 var $downloadAllLink = $('<a/>',{
     text:  'download alle SRT\'s',
     href: '#',
-    class: 'blue',
+    class: 'blue editors',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
     id:    'allbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 28px; margin-top: 8px;'
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: #19B7EA; display: none; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 28px; margin-top: 8px;'
   });
 $downloadAllLink.click(function() {downloadAllSrts();});
 var $bar = $('.topnav_menu_desktop_main')[0];
@@ -647,6 +647,15 @@ c++;
 
 }});
 $('.denker').remove();
+
+document.addEventListener('keypress', function(e) {
+if(e.keyCode == 96) {
+$('.message').hide();
+$('.editors').fadeToggle(250);
+};
+    
+});
+
 };
 (function() {start();})();
 
@@ -777,30 +786,33 @@ oldVersions[videoid] = a.versions[t].id;
 
 
 function opschoonButton() {
+    var $bar2 = $('.topnav_menu_desktop_main')[0];
+$('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);    
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
-    class: 'blue',
+    class: 'blue editors',
     title: 'verwijder automatisch alle oudste versies van alle video\'s in deze zoekopdracht...',
     href: '#',
     onmouseover: 'javascript:this.style.backgroundColor = "red";',
     onmouseout: 'javascript:this.style.backgroundColor = "darkred";',
     id:    'schoonbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: darkred; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'display: none; padding: 8px; padding-top: 5px; color: white; background-color: darkred; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
   });
 $opschoonLink.click(function() {allesOpschonen();});
-var $bar2 = $('.topnav_menu_desktop_main')[0];
+
 if (page == 1) {$opschoonLink.appendTo($bar2);};
 };
 
 function thumb3Buttons() {
 var $thumb3buttons = $('<a/>',{
     html:  '<b>show</b> thumbnail buttons',
+    class: 'editors',
     title: 'Toon de knoppen om de thumbnail aan te passen...',
     href: '#',
     onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
     onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet ";',
     id:    'thumbsbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: BlueViolet ; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'display: none; padding: 8px; padding-top: 5px; color: white; background-color: BlueViolet ; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
   });
 $thumb3buttons.click(function() {if(!showhidethumb) {$thumb3buttons.toggleHTML('<b>hide</b> thumbnail buttons', '<b>show</b> thumbnail buttons'); $('.thumb3button').toggle(); $('.blue').toggle();
         }});
@@ -820,9 +832,24 @@ var $allThumbsButton = $('<a/>',{
     id:    'thumbsallbutton',
     style: 'padding: 8px; padding-top: 5px; color: white; background-color: DarkMagenta; display: none; float: right; z-index:999; margin-left:1.4%; border-radius: 8px; height: 25px; margin-top: 8px;'
   });
+
+  var $allThumbsButton2 = $('<a/>',{
+    html:  '&#x27A4; alles op 0.1 sec',
+    title: 'Zet alle thumbnails op de 0.1 seconde-frame... (want daar zit normaal het startscherm)...',
+    href: '#',
+    class: 'thumb3button',
+    onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
+    onmouseout: 'javascript:this.style.backgroundColor = "DarkOrchid";',
+    id:    'thumbsallbutton2',
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: DarkMagenta; display: none; float: right; z-index:999; margin-left:1.4%; border-radius: 8px; height: 25px; margin-top: 8px;'
+  });
+
+
 $allThumbsButton.click(function() {setAllThumbnails(resetsecs);});
+$allThumbsButton2.click(function() {setAllThumbnails(0.02);});
 
 $allThumbsButton.appendTo($bar2);
+$allThumbsButton2.appendTo($bar2);
 
 
 
