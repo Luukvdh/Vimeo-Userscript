@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         'Cursus' knopje in ALL VIDEOS
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @include     https://vimeo.com/manage/videos*
+// @version      0.2
+// @include     https://vimeo.com/manage/videos
 // @include     https://vimeo.com/manage/folders*
 // @description  try to take over the world!
 // @author       You
