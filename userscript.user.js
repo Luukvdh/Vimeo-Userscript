@@ -648,9 +648,7 @@ c++;
 }});
 $('.denker').remove();
 };
-(function() {
-      
-start()})();
+(function() {start();})();
 
 
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
