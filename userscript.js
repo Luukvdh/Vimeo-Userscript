@@ -796,7 +796,9 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 }});
 
 var position = 1;
+console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
+if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};    
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
 file = file + thisline; oldnumber = digit;
 position++;
@@ -835,7 +837,7 @@ var $commentCountDiv = $('<div/>',
                           "z-index": "99999",
                           onclick:"window.open('https://vimeo.com/manage/"+videoid+"/collaboration')",
                           style:"width: auto; height: 25px; border-radius: 4px; margin: 5px; margin-left: 12px; padding: auto; padding-top: 3px; padding-left:9px; padding-right:9px; font-weight: bold; background-color: darkred; color: white; opacity:0.4; display: inline-block; left: 300px; ",
-                          html: "versie "+versionsCount});
+                          html: versionsCount+" versies"});
 var $row = $('.table_cell__title')[b];
 $commentCountDiv.appendTo($row);
 for(var t = 1; t < versionsCount; t++) {
