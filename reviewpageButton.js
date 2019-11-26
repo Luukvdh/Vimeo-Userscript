@@ -16,6 +16,7 @@
 
 (function() {
   var thisurl = window.location.href;
+  console.log("DE URL: "+thisurl);
   if(thisurl.includes('review')) { 
     var xpathResult = getElementByXpath("/html/body/div[1]/div/div[1]");
     xpathResult.style.backgroundColor = "#1F1F1F";
