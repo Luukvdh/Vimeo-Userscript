@@ -13,7 +13,8 @@
 // Date:     2019-26-november
 
 (function() {
-
+var thisurl = window.location.href;
+if(thisurl.includes('ewise/review')) { 
     var videoelem;
     var buttonelem;
     var clickarea;
@@ -70,7 +71,7 @@
     
     });
     
-        })();
+};})();
     
     function getElementByXpath(path) {
           return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;

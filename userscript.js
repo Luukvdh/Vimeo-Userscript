@@ -648,7 +648,11 @@ c++;
 }});
 $('.denker').remove();
 };
-(function() {start();})();
+(function() {
+    
+    var thisurl = window.location.href;
+    if(thisurl.includes('manage/videos/search')) {     
+start();}})();
 
 
 function addPlaysSticker(a, yearplays, red, last5months, avg) {

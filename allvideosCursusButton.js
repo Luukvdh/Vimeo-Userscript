@@ -35,7 +35,11 @@ $button.appendTo($target);
 }); },2000);
 
 };
+(function() {
+  var thisurl = window.location.href;
+  if(thisurl.includes('manage')) {   
 goToWork();
+}})();
 
 
 function findTitle(input) {
