@@ -303,11 +303,11 @@ name = req.name;
 var $downloadAllLink = $('<a/>',{
     text:  'download alle SRT\'s',
     href: '#',
-    class: 'blue',
+    class: 'blue editors',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
     id:    'allbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 28px; margin-top: 8px;'
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: #19B7EA; display: none; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 28px; margin-top: 8px;'
   });
 $downloadAllLink.click(function() {downloadAllSrts();});
 var $bar = $('.topnav_menu_desktop_main')[0];
@@ -647,10 +647,17 @@ c++;
 
 }});
 $('.denker').remove();
+
+document.addEventListener('keypress', function(e) {
+if(e.keyCode == 96) {
+$('.message').hide();
+$('.editors').fadeToggle(250);
 };
-(function() {
-      
-start()})();
+
+});
+
+};
+(function() {start();})();
 
 
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
@@ -659,82 +666,7 @@ function addPlaysSticker(a, yearplays, red, last5months, avg) {
 
 
 function getYearPlays(videoid, a, created) {
-var newvideo = false;
-var age = Date.parse(created);
-var now = Date.now(); var diff = (now - age);
-if (diff < 3830464000) {newvideo = true;};  // = als de video ouder is dan 1,5 jaar
 
-
-var $playsDenker = $('<a/>',{
-    html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="15px" height="15px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
-    title: 'Wordt deze video wel gebruikt?',
-    href: '#',
-    class: 'denker',
-    //onmouseover: 'javascript:this.style.backgroundColor = "red";this.style.transform = "scale(1.08)"',
-    //onmouseout: 'javascript:this.style.backgroundColor = "red"; this.style.transform = "scale(1.0)"',
-    id:    'playsdenker'+a,
-    style: 'padding: 7px; color: white; font-weight: bold; background-color: transparent; position: absolute; right: 10px; top: 25%; z-index:999; margin-left:4%; border-radius: 4px; height: 15px; margin-top: 8px; opacity: 1; height: 25px; opacity:0.25;'
-  });
-$playsDenker.click(function() {console.log(videoid);});
-
-var $row = $('.table_cell__title_wrapper')[a];
-$playsDenker.appendTo($row);
-  var dedatum = new Date();
-var jaarEerder = new Date();
-jaarEerder.setFullYear( jaarEerder.getFullYear() - 1 );
-dedatum = dedatum.toISOString().split('T')[0];
-jaarEerder = jaarEerder.toISOString().split('T')[0];
-var ExportLink;
-    $.ajax({
-    type: 'GET',
-
-    url: "https://api.vimeo.com/me/videos/stats?group_by=month&start_date="+jaarEerder+"&end_date="+dedatum+"&per_page=60&page=1&filter_videos="
-        +videoid+"&sort_by=date&direction=desc&fields=range.start_date%2Crange.end_date%2Cplays%2Cfinishes%2Clikes%2Ccomments%2Cloads%2Cdownloads%2Cwatched"
-        +"&csv=/https%3A%2F%2Fapi.vimeo.com%2Fme%2Fvideos%2Fstats%3Fstart_date%3D"+jaarEerder+"%26end_date%3D"+dedatum+"%26fields%3Drange.start_date%2Crange.end_date%2C%2Ccreated_time%2Cplays%2Cfinishes%2Clikes%2Ccomments%2Cloads%2Cdownloads%2Cwatched.mean_percent%26group_by%3Dyear%26per_page%3D15000%26sort_by%3Ddate%2Cdirection%3Dasc",
-     beforeSend: function(request) {
-    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
-success: function(r) { var yearplays;
-var playstotal = []; var meanstotal = []; console.log(r.data[1].watched.mean_percent); console.log(r.export_link); ExportLink = r.export_link;
-//r.forEach(function(g, a) {playstotal.push(g[a].plays)});
-
-var csv;
-
-
-    try{var count = r.data.length; for(var q=0; q < count; q++) {playstotal.push(r.data[q].plays); if(r.data[q].plays > 1) {meanstotal.push(r.data[q].watched.mean_percent);};};
-        var stilte = "0"; for(var w = 0; w < playstotal.length; w++) {if(playstotal[w] == 0) {stilte++}; if(playstotal[w] > 0) {stilte = 0;} };
-        var playsave = playstotal;
-        playstotal.splice(12);
-        if (newvideo == true) {stilte = 0;};
-//console.dir(playstotal);
-       // console.log("nulmaanden: "+stilte);
-        var playstotalyear = playstotal.reduce(add, 0);
-        //console.log(playsave);
-playsave= playsave.slice(playsave.length-6, playsave.length);
-        var quartertotal = playsave.reduce(add, 0);
-        //console.log(quartertotal);
-        //playstotalyear = playstotalyear;
-        var red = 0;
-
-        var sum = 0;
-for( var i = 0; i < meanstotal.length; i++ ){
-    sum += parseInt( meanstotal[i], 10 ); //don't forget to add the base
-}
-
-var avg = sum/meanstotal.length; console.log("Avarage: "+avg);
-
-
-
-        if(playstotalyear < 1 && newvideo == false) {red = 1;};
-
-
-
-
-        if(stilte > 4 && stilte < 13 && newvideo == false) {red = 0};
-        addPlaysSticker(a, playstotalyear, red, quartertotal, avg);} catch(error) {console.log('plays error:'+error);};
-
-},
-fail: function(message) {console.log(message);}
-});
 
 }
 
@@ -800,7 +732,7 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 var position = 1;
 console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
-if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};    
+if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
 file = file + thisline; oldnumber = digit;
 position++;
@@ -854,30 +786,33 @@ oldVersions[videoid] = a.versions[t].id;
 
 
 function opschoonButton() {
+    var $bar2 = $('.topnav_menu_desktop_main')[0];
+$('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
-    class: 'blue',
+    class: 'blue editors',
     title: 'verwijder automatisch alle oudste versies van alle video\'s in deze zoekopdracht...',
     href: '#',
     onmouseover: 'javascript:this.style.backgroundColor = "red";',
     onmouseout: 'javascript:this.style.backgroundColor = "darkred";',
     id:    'schoonbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: darkred; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'display: none; padding: 8px; padding-top: 5px; color: white; background-color: darkred; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
   });
 $opschoonLink.click(function() {allesOpschonen();});
-var $bar2 = $('.topnav_menu_desktop_main')[0];
+
 if (page == 1) {$opschoonLink.appendTo($bar2);};
 };
 
 function thumb3Buttons() {
 var $thumb3buttons = $('<a/>',{
     html:  '<b>show</b> thumbnail buttons',
+    class: 'editors',
     title: 'Toon de knoppen om de thumbnail aan te passen...',
     href: '#',
     onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
     onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet ";',
     id:    'thumbsbutton',
-    style: 'padding: 8px; padding-top: 5px; color: white; background-color: BlueViolet ; display: block; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'display: none; padding: 8px; padding-top: 5px; color: white; background-color: BlueViolet ; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
   });
 $thumb3buttons.click(function() {if(!showhidethumb) {$thumb3buttons.toggleHTML('<b>hide</b> thumbnail buttons', '<b>show</b> thumbnail buttons'); $('.thumb3button').toggle(); $('.blue').toggle();
         }});
@@ -897,9 +832,24 @@ var $allThumbsButton = $('<a/>',{
     id:    'thumbsallbutton',
     style: 'padding: 8px; padding-top: 5px; color: white; background-color: DarkMagenta; display: none; float: right; z-index:999; margin-left:1.4%; border-radius: 8px; height: 25px; margin-top: 8px;'
   });
+
+  var $allThumbsButton2 = $('<a/>',{
+    html:  '&#x27A4; alles op 0.1 sec',
+    title: 'Zet alle thumbnails op de 0.1 seconde-frame... (want daar zit normaal het startscherm)...',
+    href: '#',
+    class: 'thumb3button',
+    onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
+    onmouseout: 'javascript:this.style.backgroundColor = "DarkOrchid";',
+    id:    'thumbsallbutton2',
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: DarkMagenta; display: none; float: right; z-index:999; margin-left:1.4%; border-radius: 8px; height: 25px; margin-top: 8px;'
+  });
+
+
 $allThumbsButton.click(function() {setAllThumbnails(resetsecs);});
+$allThumbsButton2.click(function() {setAllThumbnails(0.02);});
 
 $allThumbsButton.appendTo($bar2);
+$allThumbsButton2.appendTo($bar2);
 
 
 
