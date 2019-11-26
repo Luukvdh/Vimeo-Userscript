@@ -2,7 +2,7 @@
 // @name        Redactie E-WISE Vimeo script
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*
-// @version     1.3
+// @version     1.77
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -14,7 +14,7 @@
 
 $.noConflict();
 
-
+// TEST ZIN VOOR DE UPDATE
 // =================== START SEARCH ===========================
 
 function startSearch() {
