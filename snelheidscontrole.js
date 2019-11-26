@@ -14,7 +14,8 @@
 
 (function() {
 var thisurl = window.location.href;
-if(thisurl.includes('ewise/review')) { 
+console.log(thisurl);
+if(thisurl.includes('review')) { 
     var videoelem;
     var buttonelem;
     var clickarea;
