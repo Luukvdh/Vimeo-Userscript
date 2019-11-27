@@ -6,7 +6,8 @@ Scripts to automize administrative operations in Vimeo.
 
 ## Setup
 
-Install TamperMonkey
+Install [TamperMonkey] (https://www.tampermonkey.net/)
+Klik daarna op onderstaande links om de scripts één voor één te installeren.
 
   
 
