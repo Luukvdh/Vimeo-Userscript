@@ -1,25 +1,30 @@
 // ==UserScript==
 // @name         'Cursus' knopje in ALL VIDEOS
 // @namespace    http://tampermonkey.net/
-// @version      0.2
-// @include     https://vimeo.com/manage/videos
-// @include     https://vimeo.com/manage/folders*
+// @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        http://*/*
+// @match        https://vimeo.com/manage/folders*
+// @match        https://vimeo.com/manage/videos*
 // @grant        none
 // ==/UserScript==
-$(document).on('click', function(a) {if(a.toElement.textContent == "Load more…") {setTimeout(function() {jQuery( "[name='foundtitles']" ).remove(); goToWork()}, 1200);}});
-function goToWork() {
 
-    'use strict';
+function goToWork() {
+  
+  $("span").on('click', function() {console.log("hiieroooo"); $("span").unbind(); setTimeout(function() {goToWork();},1000);});
+    //$("button").on('click', function() {console.log("hiieroooo"); $("button").unbind(); setTimeout(function() {goToWork();},1000);});
+  $("body").find("div").on('click', function() {this.unbind();goToWork();});
+  $("[name='search-input']").keypress(function (e) {
+    if(e.which ==13)
+    {};
+});
 
 var $all;
-setTimeout(function() {console.dir($('.table_cell__title_wrapper').toArray()); var $all = $('.table_cell__title_wrapper').toArray();
+setTimeout(function() {console.dir($('.table_cell__title_wrapper').toArray()); var $all = $('.table_cell__title_wrapper').toArray(); $('[name=foundtitles]').remove();
 $all.forEach(function (a,b) {
 var temptitle = a.textContent;
 temptitle = findTitle(temptitle);
-var $target = $('.table_cell__title_wrapper')[b];
+var target = $('.table_cell__title_wrapper')[b];
 
 var $button = $('<a/>',{
     text:  'cursus',
@@ -30,16 +35,21 @@ var $button = $('<a/>',{
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";'
   });
+var $target = $(target);
+var thisurl = $(location).attr('href');
 
-$button.appendTo($target);
-}); },2000);
+if(!thisurl.includes("videos")) { 
+$button.appendTo($target).hide().fadeIn(300);}}
+)},1000);
 
 };
 (function() {
-  
-goToWork();
+  setTimeout(function() {goToWork();},200);
+$('.active').on('click',function() {goToWork();});
 })();
 
+// $("span").on('click', function() {console.log("hiieroooo"); $("span").unbind(); $('[name="foundtitles"]').remove(); goToWork();});
+// $("button").on('click', function() {console.log("hiieroooo"); $("button").unbind(); $('[name="foundtitles"]').remove(); goToWork();});
 
 function findTitle(input) {
 var regex = /-/g;
