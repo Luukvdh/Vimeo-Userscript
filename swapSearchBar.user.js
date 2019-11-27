@@ -2,8 +2,8 @@
 // @name        ZOEKBALK E-Wise (Vimeo)
 // @namespace   ewise
 // @include     https://vimeo.com/*
-// @version 1
-// @grant   none
+// @version     1.2
+// @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
 

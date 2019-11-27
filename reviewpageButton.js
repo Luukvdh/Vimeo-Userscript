@@ -2,7 +2,7 @@
 // @name        knopje settings in REVIEWPAGE
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.1
+// @version     1.2
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js

@@ -2,12 +2,12 @@
 // @name        Knopje 'zoek de hele cursus' bij iedere videopagina
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*
-// @version 1
-// @grant   none
+// @version     1.2
+// @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
 // Author:      Luuk van den Hoogen
-// Date:     2019-26-juli
+// Date:         2019-26-juli
 
 (function() {
  
