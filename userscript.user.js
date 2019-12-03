@@ -651,7 +651,7 @@ $('.denker').remove();
 document.addEventListener('keypress', function(e) {
 if(e.keyCode == 96) {
 $('.message').hide();
-$('.editors').fadeToggle(250);
+$('.editors').show();
 };
 
 });
