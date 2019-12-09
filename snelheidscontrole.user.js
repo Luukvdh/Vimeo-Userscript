@@ -12,10 +12,14 @@
 // Author:      Luuk van den Hoogen
 // Date:     2019-26-november
 
+
+
+
+var buttonelem;
 (function() {
 
     var videoelem;
-    var buttonelem;
+    
     var clickarea;
     var rate = 1.0;
     
@@ -37,25 +41,48 @@
     
         console.log(key.keyCode);
         var keycode = key.keyCode;
-        if(keycode == 45) {
+        if(keycode == 45 || keycode==50) {
         rate = rate-0.1;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
+    speedcolor(rate);
         };
     
-   if ((keycode==43) &&
+   if ((keycode==43 || keycode==56) &&
         (key.location===3)) {
 
         rate = rate+0.1;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
+    speedcolor(rate);
     
         };
+
+        if ((keycode==46 || keycode==53) &&
+        (key.location===3)) {
+
+    if (videoelem.paused) {   
+    videoelem.play(); } else {  
+    videoelem.pause(); };
+    
+        };
+
+        if ((keycode==52) &&
+        (key.location===3)) {
+            videoelem.currentTime -= 5;
+        };  
+        if ((keycode==54) &&
+        (key.location===3)) {
+            videoelem.currentTime += 5;
+        };    
+
+
     
     if(keycode == 96 || keycode == 48) {
         rate = 1.00;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
+    speedcolor(rate);
         };
    if ((keycode==13) &&
         (key.location===3)) {
@@ -72,6 +99,17 @@
     
 ;})();
     
+function speedcolor(rate) {
+$('.played').css({'background-color': getGreenToRed(rate)});
+buttonelem.parentNode.style.backgroundColor = getGreenToRed(rate);
+
+
+
+
+
+}
+
+
     function getElementByXpath(path) {
           return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         }
@@ -136,4 +174,10 @@ var defaultOptions = {
     bubbles: true,
     cancelable: true
 }
+
+function getGreenToRed(percent){
+var extra = -1 + percent; 
+    return 'rgb('+((-1)+percent+extra)*255+','+(150*(2-(percent+extra)))+','+(239*(2-(percent+extra)))+')';
+};
+
     
