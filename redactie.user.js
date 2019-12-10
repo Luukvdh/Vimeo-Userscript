@@ -285,7 +285,7 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
                               };
                               var headerelement = $(".video_manager__header")[0];
                               var $totalsumsticker = $('<p/>',{
-                                html: '<span style="color: darkgray; font-weight: normal; text-align: left;"><span style="color: black;"><b><i>E-WISE Totale cursustijd: </i></b>'+secondsTimeSpanToHMS(totalsum)+'</span></span>',
+                                html: '<span style="color: darkgray; font-weight: normal; text-align: left;"><span style="color: black;"><b><i>Totale tijd van deze video\'s: </i></b>'+secondsTimeSpanToHMS(totalsum)+'</span></span>',
                                 style: 'text-align: center; display: block; position: static; margin: auto; color: black; font-weight: 900; margin-top: 15px; margin-bottom: -15px;'
 
                             }).insertBefore(headerelement);
@@ -335,6 +335,7 @@ function secondsTimeSpanToHMS(s) {
     s -= h*3600;
     var m = Math.floor(s/60); //Get remaining minutes
     s -= m*60;
+    if (s > 20) {m++;};
     return h+"h "+(m < 10 ? '0'+m : m)+"m  "; //zero padding on minutes and seconds
 }
 
