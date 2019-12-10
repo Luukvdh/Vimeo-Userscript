@@ -76,7 +76,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
                 type: 'GET',
                 url: r,
             async: false});
-        var responsetext = (req.responseText); console.log(responsetext);
+        var responsetext = (req.responseText);
         if(!boolean) {
             responsetext = responsetext.substr(0,j);
             console.log(responsetext);
