@@ -77,8 +77,9 @@ function convertCSVtoSRT(data, form, lenght, a) {
                 url: r,
             async: false});
         var responsetext = (req.responseText);
-        var j = responsetext.indexOf(",,,,,,,");
+        
         if(!boolean) {
+            var j = responsetext.indexOf(",,,,,,,");
             responsetext = responsetext.substr(0,j);
             console.log(responsetext);
             var responsetextsrt = convertCSVtoSRT(responsetext);
@@ -86,6 +87,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
             return responsetextsrt;
         };
             if (boolean) {
+                var j = responsetext.indexOf(",,,,,,,");
                 responsetexttemp = responsetext.substr(j, responsetext.length);
                 responsetext = responsetexttemp.substr(0,responsetexttemp.indexOf(",,,,,,,"));
                 console.log(responsetext);
