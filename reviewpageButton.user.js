@@ -69,6 +69,15 @@ link = link.substring(link.length - 9, link.length);
       style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
     });
 
+    var $button5 = $('<a/>',{
+      text:  'Open verzoeken',
+      href:   '#',
+      id:    'openRemarks',
+      onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
+      onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet";',
+      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
+    });
+
 
 
 
@@ -77,10 +86,19 @@ link = link.substring(link.length - 9, link.length);
       var yy = window.location.href; yy = yy.replace('#', '');
       yy = yy+"/download_notes_csv"; console.log(yy);
       var name = document.title; name = name.replace(" on Vimeo", "");
-      var blob = new Blob([getSRT(yy, name)], {type: "text/plain;charset=utf-8"});
+      var blob = new Blob([getSRT(yy, name, false)], {type: "text/plain;charset=utf-8"});
       saveAs(blob, name+".srt");
       });
   $button4.appendTo(xpathResult);
+
+  $button5.on('click', function() {
+    var yy = window.location.href; yy = yy.replace('#', '');
+    yy = yy+"/download_notes_csv"; console.log(yy);
+    var name = document.title; name = name.replace(" on Vimeo", "");
+    var blob = new Blob([getSRT(yy, name, true)], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, name+".srt");
+    });
+$button5.appendTo(xpathResult);
 
 
   })();
