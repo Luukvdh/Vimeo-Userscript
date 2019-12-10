@@ -96,7 +96,16 @@ link = link.substring(link.length - 9, link.length);
     yy = yy+"/download_notes_csv"; console.log(yy);
     var name = document.title; name = name.replace(" on Vimeo", "");
     var csvraw = getSRT(yy, name, true);
+    csvraw.data.shift();
+    csvraw.data.pop();
     console.dir(csvraw);
+    
+    
+    var w = window.open("","","width=600,height=480,toolbar=no,menubar=no,resizable=yes");
+  var html = "<table><th>hoi</th><tr>aa</tr><tr>bb</tr></table>";
+
+    $(w.document.body).html(html);
+
     });
 $button5.appendTo(xpathResult);
 
