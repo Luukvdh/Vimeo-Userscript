@@ -80,6 +80,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
         if(!boolean) {
             responsetext = responsetext.substr(0,j);
             var responsetextsrt = convertCSVtoSRT(responsetext);
+            console.log("These edits shown...");
             return responsetextsrt;
         };
             if (boolean) {
