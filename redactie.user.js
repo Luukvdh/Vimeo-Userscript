@@ -248,12 +248,18 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
 
                             
 
-                              var plays = r.data[number].plays;
-                              var finishes = r.data[number].finishes;
-                              var loads = r.data[number].loads;
-                              var skipped = parseInt(loads) - parseInt(plays);
-                              var mean_watched = r.data[number].watched.mean_percent;
-                              var percentage_int = mean_watched / 100;
+                              var plays;
+                              var finishes;
+                              var loads;
+                              var mean_watched;
+                              try {plays = r.data[number].plays;} catch(e) {plays = 0;};
+                              try {finishes = r.data[number].finishes;} catch(e) {finishes = 0;};
+                              try {loads = r.data[number].loads;} catch(e) {loads = 0;};
+                              try {mean_watched = r.data[number].watched.mean_percent;} catch(e) {mean_watched = 0;};
+                            
+                              
+                              
+                              
                                   var $timeSticker = $('<div/>',{
                                       html: '<span style="color: darkgray; font-weight: normal; text-align: left;">'+timecode+'</span>',
                                       style: 'text-align: right; position: absolute; right: 240px;'
