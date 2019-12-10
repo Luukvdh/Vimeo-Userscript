@@ -68,7 +68,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
     };
     
     function getSRT(r, name, boolean) {
-    
+    console.log("THE_BOOLEAN: "+boolean);
         console.log("url is "+r);
     
         var req =  $.ajax({
