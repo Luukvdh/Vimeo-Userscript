@@ -79,6 +79,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
         var responsetext = (req.responseText); console.log(responsetext);
         if(!boolean) {
             responsetext = responsetext.substr(0,j);
+            console.log(responsetext);
             var responsetextsrt = convertCSVtoSRT(responsetext);
             console.log("These edits shown...");
             return responsetextsrt;
@@ -86,6 +87,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
             if (boolean) {
                 responsetexttemp = responsetext.substr(j, responsetext.length);
                 responsetext = responsetexttemp.substr(0,responsetexttemp.indexOf(",,,,,,,"));
+                console.log(responsetext);
                 var responsetextsrt = convertCSVtoSRT(responsetext);
                 console.log("Last edits shown...");
                 return responsetextsrt;
