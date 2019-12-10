@@ -91,6 +91,9 @@ function convertCSVtoSRT(data, form, lenght, a) {
                 responsetexttemp = responsetext.substr(j+7, responsetext.length);
                 
                 responsetext = responsetexttemp.substr(0,responsetexttemp.indexOf(",,,,,,,"));
+                responsetext = responsetexttemp.substr(0,responsetexttemp.indexOf(","));
+
+
                 console.log(responsetext);
                 
                 var rawLastEdits = Papa.parse(responsetext);
