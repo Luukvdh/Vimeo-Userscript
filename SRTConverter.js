@@ -92,11 +92,14 @@ function convertCSVtoSRT(data, form, lenght, a) {
                 
                 responsetext = responsetexttemp.substr(0,responsetexttemp.indexOf(",,,,,,,"));
                 responsetext = responsetext.substr(0,responsetext.indexOf(","));
+                
 
 
                 console.log(responsetext);
                 
                 var rawLastEdits = Papa.parse(responsetext);
+                rawLastEdits.shift();
+                rawLastEdits.pop();
                 
                 return rawLastEdits;
             };
