@@ -88,7 +88,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
         };
             if (boolean) {
                 var j = responsetext.indexOf(",,,,,,,");
-                responsetexttemp = responsetext.substr(j, responsetext.length);
+                responsetexttemp = responsetext.substr(j+7, responsetext.length);
                 responsetext = responsetexttemp.substr(0,responsetexttemp.indexOf(",,,,,,,"));
                 console.log(responsetext);
                 var responsetextsrt = convertCSVtoSRT(responsetext);
