@@ -1,7 +1,7 @@
 function convertCSVtoSRT(data, form, lenght, a) {
 
 
-    //-----------------------------------VANAF HIER DE CODE OM SRT OM TE ZETTEN -----------------
+    
     var file = "";
     var timecode = "0";
     var comment = "";
