@@ -86,6 +86,7 @@ function convertCSVtoSRT(data, form, lenght, a) {
                 responsetexttemp = responsetext.substr(j, responsetext.length);
                 responsetext = responsetexttemp.substr(responsetexttemp.indexOf(",,,,,,,"));
                 var responsetextsrt = convertCSVtoSRT(responsetext);
+                console.log("Last edits shown...");
                 return responsetextsrt;
             };
         
