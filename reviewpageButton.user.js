@@ -95,8 +95,8 @@ link = link.substring(link.length - 9, link.length);
     var yy = window.location.href; yy = yy.replace('#', '');
     yy = yy+"/download_notes_csv"; console.log(yy);
     var name = document.title; name = name.replace(" on Vimeo", "");
-    var blob = new Blob([getSRT(yy, name, true)], {type: "text/plain;charset=utf-8"});
-    console.log(blob);
+    var csvraw = getSRT(yy, name, true);
+    console.dir(csvraw);
     });
 $button5.appendTo(xpathResult);
 
