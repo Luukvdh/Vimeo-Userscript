@@ -2,7 +2,7 @@
 // @name        knopje settings in REVIEWPAGE
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.2
+// @version     1.3
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -70,7 +70,7 @@ link = link.substring(link.length - 9, link.length);
     });
 
     var $button5 = $('<a/>',{
-      text:  'Open verzoeken',
+      text:  'Open laatste correcties',
       href:   '#',
       id:    'openRemarks',
       onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
@@ -99,16 +99,33 @@ link = link.substring(link.length - 9, link.length);
     csvraw.data.shift();
     csvraw.data.pop();
     console.dir(csvraw);
+    var aantal = csvraw.data.length;
+    $('#openRemarks').text('Open laatste correcties ('+aantal+')');
     
-    
-    var w = window.open("","","width=600,height=480,toolbar=no,menubar=no,resizable=yes");
-  var html = "<table><th>hoi</th><tr>aa</tr><tr>bb</tr></table>";
-
+    var w = window.open("","Laatste correcties "+name,"width=" + (parseInt(window.innerWidth) * 0.3) + ",height=" + (parseInt(window.innerHeight) * .3) + ",toolbar=0,menubar=0,location=0,status=0,scrollbars=1,resizable=0,left=0,top=0");
+  var html = "<style>html {font-family: 'Open Sans';} th, td {padding: 15px; text-align: left;} tr:nth-child(even) {background-color: #f2f2f2;} tr:nth-child(odd) {background-color: #f0f0f0;}</style><p style='width: 100%; text-align: center;'><b>Correcties&nbsp;"+name+"</b></p><table style='vertical-align: top;'>";
+csvraw.data.forEach(function(a) {
+  console.log(a[2]+" : ",a[4]);
+  html += "<tr><td>"+a[2]+"</td><td>"+a[4]+"</td></tr>";
+});
+html += "</table>";
+$(w.document.head).html('<title>Correcties '+name+'</title>');
     $(w.document.body).html(html);
 
     });
 $button5.appendTo(xpathResult);
 
+$(window).on('load', function() {
+  var yy = window.location.href; yy = yy.replace('#', '');
+  yy = yy+"/download_notes_csv"; console.log(yy);
+  var name = document.title; name = name.replace(" on Vimeo", "");
+  
+  var csvraw2 = getSRT(yy, name, true);
+    csvraw2.data.shift();
+    csvraw2.data.pop();
+  
+    var aantal = csvraw2.data.length;
+    $('#openRemarks').html('Open laatste correcties (&nbsp;<b>'+aantal+'</b>&nbsp;)'); });
 
   })();
 
