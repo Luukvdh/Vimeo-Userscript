@@ -36,7 +36,7 @@ link = link.substring(link.length - 9, link.length);
       id:    'zoekcursus',
       onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
       onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 40vw;'
+      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 20vw;'
     });
   $button.prependTo(xpathResult);
 
