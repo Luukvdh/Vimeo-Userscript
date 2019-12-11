@@ -102,7 +102,7 @@ link = link.substring(link.length - 9, link.length);
     var aantal = csvraw.data.length;
     $('#openRemarks').text('Open laatste correcties ('+aantal+')');
     
-    var w = window.open("","Laatste correcties "+name,"width=" + (parseInt(window.innerWidth) * 0.3) + ",height=" + (parseInt(window.innerHeight) * .3) + ",toolbar=0,menubar=0,location=0,status=0,scrollbars=1,resizable=0,left=0,top=0");
+    var w = window.open("","Laatste correcties "+name,"width=" + (parseInt(window.innerWidth) * 0.4) + ",height=" + (parseInt(window.innerHeight) * .45) + ",toolbar=0,menubar=0,location=0,status=0,scrollbars=1,resizable=0,left=0,top=0");
   var html = "<style>html {font-family: 'Open Sans';} th, td {padding: 15px; text-align: left;} tr:nth-child(even) {background-color: #f2f2f2;} tr:nth-child(odd) {background-color: #f0f0f0;}</style><p style='width: 100%; text-align: center;'><b>Correcties&nbsp;"+name+"</b></p><table style='vertical-align: top;'>";
 csvraw.data.forEach(function(a) {
   console.log(a[2]+" : ",a[4]);
