@@ -2,7 +2,7 @@
 // @name        knopje settings in REVIEWPAGE
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.3
+// @version     1.4
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -64,8 +64,8 @@ link = link.substring(link.length - 9, link.length);
       text:  'download SRT',
       href:   '#',
       id:    'downloadSRT',
-      onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
+      onmouseover: 'javascript:this.style.backgroundColor = "#0088CC"',
+      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA"',
       style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
     });
 
