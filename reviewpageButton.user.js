@@ -64,8 +64,8 @@ link = link.substring(link.length - 9, link.length);
       text:  'download SRT',
       href:   '#',
       id:    'downloadSRT',
-      onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
-      onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet";',
+      onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
+      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
       style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
     });
 
