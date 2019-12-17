@@ -25,10 +25,26 @@ var buttonelem;
         console.log(b);
         b.style.display = 'none';
     });
-
-   
-
 }, 1900);
+
+setTimeout(function() { var elements = $('svg[viewbox]');
+   elements.each(function(a,b) {
+
+        console.log("getal: "+a);
+        console.log(b);
+        b.parent.parent.style.display = 'none';
+        
+    });
+}, 1900);
+setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
+   elements.each(function(a,b) {
+
+        console.log("getal: "+a);
+        console.log(b);
+        b.parent.style.display = 'none';
+        
+    });
+}, 2900);
 
     var videoelem;
     

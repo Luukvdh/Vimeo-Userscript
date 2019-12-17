@@ -2,7 +2,7 @@
 // @name        knopje settings in REVIEWPAGE
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.4
+// @version     1.7
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -30,23 +30,23 @@ link = link.substring(0, link.length - 11);
 link = link.substring(link.length - 9, link.length);
     console.log(link);
 
-  var $button = $('<a/>',{
-      text:  'zoek deze video',
-      href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundtitle),
-      id:    'zoekcursus',
-      onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 20vw;'
-    });
-  $button.prependTo(xpathResult);
+  // var $button = $('<a/>',{
+  //     text:  'zoek deze video',
+  //     href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundtitle),
+  //     id:    'zoekcursus',
+  //     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
+  //     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
+  //     style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 20vw;'
+  //   });
+  // $button.prependTo(xpathResult);
 
     var $button2 = $('<a/>',{
-      text:  'zoek hele cursus',
+      text:  'zoek alle video\'s van deze cursus',
       href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundcursus),
       id:    'zoekcursus',
       onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
-      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
-      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 10px; margin-top: 5px;'
+      onmouseout: 'javascript:this.style.backgroundColor = "#125b73";',
+      style: 'padding: 9px; padding-top: 7px; padding-bottom: 7px; color: white; background-color: #125b73; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin-left: 20vw; margin-top: 5px;'
     });
   $button2.appendTo(xpathResult);
 
@@ -55,8 +55,8 @@ link = link.substring(link.length - 9, link.length);
       href: 'https://vimeo.com/manage/'+link+"/general",
       id:    'instellingen',
       onmouseover: 'javascript:this.style.backgroundColor = "#0088CC"',
-      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA"',
-      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
+      onmouseout: 'javascript:this.style.backgroundColor = "#125b73"',
+      style: 'padding: 9px; padding-top: 7px; padding-bottom: 7px; color: white; background-color: #125b73; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
     });
   $button3.appendTo(xpathResult);
 
@@ -65,8 +65,8 @@ link = link.substring(link.length - 9, link.length);
       href:   '#',
       id:    'downloadSRT',
       onmouseover: 'javascript:this.style.backgroundColor = "#0088CC"',
-      onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA"',
-      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
+      onmouseout: 'javascript:this.style.backgroundColor = "#125b73"',
+      style: 'padding: 9px; padding-top: 7px; padding-bottom: 7px; color: white; background-color: #125b73; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
     });
 
     var $button5 = $('<a/>',{
@@ -75,7 +75,7 @@ link = link.substring(link.length - 9, link.length);
       id:    'openRemarks',
       onmouseover: 'javascript:this.style.backgroundColor = "DarkMagenta";',
       onmouseout: 'javascript:this.style.backgroundColor = "BlueViolet";',
-      style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
+      style: 'padding: 9px; padding-top: 7px; padding-bottom: 7px; color: white; background-color: BlueViolet; display: inline-block; z-index:999; border-radius: 4px; position: relative; margin: auto; margin-left: 10px; margin-top: 5px;'
     });
 
 
