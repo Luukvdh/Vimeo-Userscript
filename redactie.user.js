@@ -2,7 +2,7 @@
 // @name        Redactie E-WISE Vimeo script
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*
-// @version     1.2
+// @version     1.4
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -143,6 +143,7 @@ success:  function() {console.log('Layout is omgezet'); location.reload();},
     var allids = "";
     var idarray = [];
     var lengtharray = [];
+    
 
     var countresults = 0;
     var zipname = decodeURIComponent(query).replace('#','');
@@ -213,6 +214,7 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
         }); $spinnertje.appendTo(elem);
     };
     //             ---- STATS OM EEN WEER TE GEVEN ----------
+    var totalsum = 0;
     $.ajax({
         type: 'GET',
 
@@ -221,6 +223,15 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
             request.setRequestHeader("Authorization", "jwt "+newjwt); request.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.3');},
         success: function(r) { console.log(r); $('.denker').hide();
 
+        lengtharray.forEach(function(bit, i){
+            totalsum += bit;
+            if(i === lengtharray.length) {
+                var mins = Math.floor(totalsum/60);
+                var secs = totalsum-(Math.floor(totalsum/60)*60);
+                totalsum = mins+":"+secs;
+
+            };
+        });
 
 
                               for(var number = 0; number<a; number++) {
@@ -235,19 +246,27 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
                               var timecode = mins+":"+secs;
 
 
+                            
 
-
-                              var plays = r.data[number].plays;
-                              var finishes = r.data[number].finishes;
-                              var loads = r.data[number].loads;
-                              var skipped = parseInt(loads) - parseInt(plays);
-                              var mean_watched = r.data[number].watched.mean_percent;
-                              var percentage_int = mean_watched / 100;
+                              var plays;
+                              var finishes;
+                              var loads;
+                              var mean_watched;
+                              try {plays = r.data[number].plays;} catch(e) {plays = 0;};
+                              try {finishes = r.data[number].finishes;} catch(e) {finishes = 0;};
+                              try {loads = r.data[number].loads;} catch(e) {loads = 0;};
+                              try {mean_watched = r.data[number].watched.mean_percent;} catch(e) {mean_watched = 0;};
+                            
+                              
+                              
+                              
                                   var $timeSticker = $('<div/>',{
                                       html: '<span style="color: darkgray; font-weight: normal; text-align: left;">'+timecode+'</span>',
                                       style: 'text-align: right; position: absolute; right: 240px;'
 
                                   }).appendTo(elem);
+
+                                  
 
 
 
@@ -263,8 +282,14 @@ function getStats2(videoid, a, idarray, lengtharray, newjwt) {
                                   if (plays > 6 && !elem.innerText.includes('Preview') && !elem.innerText.includes('preview')) {$('#percentagespan'+number).css({color: 'rgb(' + ((100 - mean_watched) *8.56) +',' + (mean_watched *2.0) +',0)'});};
 
 
-                              }
+                              };
+                              var headerelement = $(".video_manager__header")[0];
+                              var $totalsumsticker = $('<p/>',{
+                                html: '<span style="color: darkgray; font-weight: normal; text-align: left;"><span style="color: black;"><b><i>Totale tijd van deze video\'s: </i></b>'+secondsTimeSpanToHMS(totalsum)+'</span></span>',
+                                style: 'text-align: center; display: block; position: static; margin: auto; color: black; font-weight: 900; margin-top: 15px; margin-bottom: -15px;'
 
+                            }).insertBefore(headerelement);
+                              
 
                              },
         fail: function(message) {console.log(message);}
@@ -304,5 +329,14 @@ $('#search-input').keydown(function(e){
         $(this).trigger("enterKey");
     }
 });
+
+function secondsTimeSpanToHMS(s) {
+    var h = Math.floor(s/3600); //Get whole hours
+    s -= h*3600;
+    var m = Math.floor(s/60); //Get remaining minutes
+    s -= m*60;
+    if (s > 20) {m++;};
+    return h+"h "+(m < 10 ? '0'+m : m)+"m  "; //zero padding on minutes and seconds
+}
 
 
