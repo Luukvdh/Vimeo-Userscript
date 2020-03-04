@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Uitroeptekens ordenen
-// @version      1.0
+// @version      1.1
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @description  quality page EWISE, click ! to show only courses with exclamation marks
 // @author       Luuk
