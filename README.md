@@ -28,4 +28,4 @@ Click links below to install:
 
 [EDITORS: ALLE STUDIO FUNCTIES (thumbnails, SRTs, EMBED-instellingen etc...](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
 
-[Slecht Scorende vragen] (https://github.com/ewisenl/Vimeo-Userscript/raw/master/ssvluuk.user.js)
+[[Slecht Scorende vragen]] (https://github.com/ewisenl/Vimeo-Userscript/raw/master/ssvluuk.user.js)
