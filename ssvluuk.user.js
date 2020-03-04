@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Uitroeptekens ordenen 4
+// @name         Uitroeptekens ordenen
 // @version      1.0
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @description  quality page EWISE, click ! to show only courses with exclamation marks
@@ -43,7 +43,8 @@ $("#frame1").on('load', function() {$("#frame1").contents().find("#admin-menu-wr
 function showMarks(markbool, callback) {
     backgroundbool = markbool;
     $('#page-title').css({color: "red", "font-size": "21pt"});
-    $('#page-title').text("Uitroeptekens overzicht");
+    if(markbool) {$('#page-title').text("Uitroeptekens overzicht");};
+    if(!markbool) {$('#page-title').text("Slecht Scorende Vragen overzicht");};
     $('<div />', {
                         name: 'placeholder1',
                         id: 'placeholder1',
@@ -83,12 +84,12 @@ var t = n;
             n++;
 
         } ;
-console.log("lengte: "+links.length);
+
         titles.forEach(function(el, g) {
 
 
-
-$(el).find("a").eq(0).attr({target: "frame1",id: "title"+g});
+var ahref = el.children[0];
+$('ahref').attr({target: "frame1",id: "title"+g});
 console.log(g);
             $('#title'+g).unbind();
             $('#title'+g).click(function() {console.log("HIT!"); this.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"}); $('#frame1').scrollTop += 300; getResults(g);
@@ -180,8 +181,8 @@ var trr = $('<td/>',{id: 'ssv'+v});
 t = $('table > thead  > tr').find('th').eq(6)[0];
 ssvheader = $('table > thead  > tr').find('th').eq(7)[0];
    try { ssvheader.innerHTML = "<a style='cursor: pointer;' id='ssdclicker' onClick=''><u>SSV</u></a>";   t.innerHTML = "<a style='cursor: pointer;' id='markclicker' onClick=''><u>!</u></a>"; } catch(e) {};
-$('#markclicker').click(function() {showMarks(true, function() {$('#markclicker').unbind(); $('#ssdclicker').unbind(); $('#markclicker').click(function() {location.reload();}); $('#ssdclicker').click(function() {location.reload();});if(!backgroundbool) {sort_table($(".views-table")[0], 7);};});});
-$('#ssdclicker').click(function() {showMarks(false, function() {$('#markclicker').unbind(); $('#ssdclicker').unbind(); $('#markclicker').click(function() {location.reload();}); $('#ssdclicker').click(function() {location.reload();}); if(!backgroundbool) {sort_table($(".views-table")[0], 7);};});});
+$('#markclicker').click(function() {showMarks(true, function() {$('#markclicker').unbind(); $('#ssdclicker').unbind(); $('#markclicker').click(function() {location.reload();}); $('#ssdclicker').click(function() {location.reload();}); if(!backgroundbool) {sort_table($(".views-table")[0], 7);};});});
+$('#ssdclicker').click(function() {showMarks(false, function() {$('#markclicker').unbind(); $('#ssdclicker').unbind(); $('#ssdclicker').click(function() {location.reload();}); $('#markerclicker').click(function() {location.reload();}); if(!backgroundbool) {sort_table($(".views-table")[0], 7);};});});
 
 })();
 
