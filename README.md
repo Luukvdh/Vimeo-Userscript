@@ -14,7 +14,7 @@ Click links below to install:
 
 ## E-WISE VIMEO Scripts
 
-[SNELHEIDSCONTROLE tijdens correcties plaatsen.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/snelheidscontrole.user.js)  
+[MARJOLEIN's SNELHEIDSCONTROLE tijdens correcties plaatsen.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/snelheidscontrole.user.js)  
 
 [ZOEKBALK bovenin de pagina zoekt binnen E-WISE videos.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/swapSearchBar.user.js)  
 
