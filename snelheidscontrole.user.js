@@ -2,7 +2,7 @@
 // @name        Marjolein's Snelheidscontrole
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.4
+// @version     1.5
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -69,14 +69,14 @@ setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
     
         console.log(key.keyCode);
         var keycode = key.keyCode;
-        if(keycode == 45 || keycode==50) {
+        if(keycode == 45 || keycode==50 || keycode==173) {
         rate = rate-0.1;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
     speedcolor(rate);
         };
     
-   if ((keycode==43 || keycode==56) &&
+   if ((keycode==43 || keycode==56 || keycode== 61) &&
         (key.location===3)) {
 
         rate = rate+0.1;
@@ -86,7 +86,7 @@ setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
     
         };
 
-        if ((keycode==46 || keycode==53) &&
+        if ((keycode==46 || keycode==53 ) &&
         (key.location===3)) {
 
     if (videoelem.paused) {   
