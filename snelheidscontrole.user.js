@@ -2,7 +2,7 @@
 // @name        Marjolein's Snelheidscontrole
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.6
+// @version     1.7.2020
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -120,7 +120,7 @@ setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
 
 
 
-    }); },1000);
+    }); },3500);
     
     });
     
