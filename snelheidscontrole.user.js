@@ -2,7 +2,7 @@
 // @name        Marjolein's Snelheidscontrole
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.7.2020
+// @version     1.7
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -11,7 +11,7 @@
 
 // Author:      Luuk van den Hoogen
 // Date:     2019-26-november
-
+c
 
 
 
