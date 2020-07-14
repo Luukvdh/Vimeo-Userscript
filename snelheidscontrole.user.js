@@ -120,7 +120,7 @@ setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
 
 
 
-    }); },3500);
+    }); },2500);
     
     });
     
