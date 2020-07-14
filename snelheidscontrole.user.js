@@ -2,7 +2,7 @@
 // @name        Marjolein's Snelheidscontrole
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.6
+// @version     2.0
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
