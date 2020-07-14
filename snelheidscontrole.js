@@ -2,7 +2,7 @@
 // @name        Marjolein's Snelheidscontrole
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.3
+// @version     1.8.2020
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -12,10 +12,42 @@
 // Author:      Luuk van den Hoogen
 // Date:     2019-26-november
 
+
+
+
+var buttonelem;
 (function() {
 
+   setTimeout(function() { var elements = $('span[format]');
+   elements.each(function(a,b) {
+
+        console.log("getal: "+a);
+        console.log(b);
+        b.style.display = 'none';
+    });
+}, 1900);
+
+setTimeout(function() { var elements = $('svg[viewbox]');
+   elements.each(function(a,b) {
+
+        console.log("getal: "+a);
+        console.log(b);
+        b.parent.parent.style.display = 'none';
+        
+    });
+}, 1900);
+setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
+   elements.each(function(a,b) {
+
+        console.log("getal: "+a);
+        console.log(b);
+        b.parent.style.display = 'none';
+        
+    });
+}, 2900);
+
     var videoelem;
-    var buttonelem;
+    
     var clickarea;
     var rate = 1.0;
     
@@ -37,25 +69,47 @@
     
         console.log(key.keyCode);
         var keycode = key.keyCode;
-        if(keycode == 45) {
+        if(keycode == 45 || keycode==50 || keycode==173) {
         rate = rate-0.1;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
+    speedcolor(rate);
         };
     
-   if ((keycode==43) &&
-        (key.location===3)) {
+   if (keycode==43 || keycode==56 || keycode==61) {
 
         rate = rate+0.1;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
+    speedcolor(rate);
     
         };
+
+        if ((keycode==46 || keycode==53 ) &&
+        (key.location===3)) {
+
+    if (videoelem.paused) {   
+    videoelem.play(); } else {  
+    videoelem.pause(); };
+    
+        };
+
+        if ((keycode==52) &&
+        (key.location===3)) {
+            videoelem.currentTime -= 5;
+        };  
+        if ((keycode==54) &&
+        (key.location===3)) {
+            videoelem.currentTime += 5;
+        };    
+
+
     
     if(keycode == 96 || keycode == 48) {
         rate = 1.00;
     videoelem.playbackRate = rate;
     buttonelem.innerHTML = rate.toFixed(2)+"x";
+    speedcolor(rate);
         };
    if ((keycode==13) &&
         (key.location===3)) {
@@ -66,12 +120,23 @@
 
 
 
-    }); },1000);
+    }); },3500);
     
     });
     
 ;})();
     
+function speedcolor(rate) {
+$('.played').css({'background-color': getGreenToRed(rate)});
+buttonelem.parentNode.style.backgroundColor = getGreenToRed(rate);
+
+
+
+
+
+}
+
+
     function getElementByXpath(path) {
           return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         }
@@ -136,4 +201,10 @@ var defaultOptions = {
     bubbles: true,
     cancelable: true
 }
+
+function getGreenToRed(percent){
+var extra = -1 + percent; 
+    return 'rgb('+((-1)+percent+extra)*255+','+(150*(2-(percent+extra)))+','+(239*(2-(percent+extra)))+')';
+};
+
     
