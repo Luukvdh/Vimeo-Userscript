@@ -2,7 +2,7 @@
 // @name        ZOEKBALK E-Wise (Vimeo)
 // @namespace   ewise
 // @include     https://vimeo.com/*
-// @version     1.2
+// @version     1.3
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -14,8 +14,8 @@
 (function() {
     'use strict';
 
-    $('.topnav_menu_search_input').attr('placeholder', 'Zoek hier je E-WISE cursus...');
-    document.querySelector('.topnav_menu_search_input').addEventListener('keypress', function (e) {
+    $('#topnav-search').attr('placeholder', 'Zoek hier je E-WISE cursus...');
+    document.querySelector('#topnav-search').addEventListener('keypress', function (e) {
     var key = e.which || e.keyCode;
     if (key === 13) { // 13 is enter
     e.preventDefault();
