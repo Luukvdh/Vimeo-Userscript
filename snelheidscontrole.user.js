@@ -2,7 +2,7 @@
 // @name        Marjolein's Snelheidscontrole
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     2.0
+// @version     2.1
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 
@@ -18,33 +18,7 @@
 var buttonelem;
 (function() {
 
-   setTimeout(function() { var elements = $('span[format]');
-   elements.each(function(a,b) {
 
-        console.log("getal: "+a);
-        console.log(b);
-        b.style.display = 'none';
-    });
-}, 1900);
-
-setTimeout(function() { var elements = $('svg[viewbox]');
-   elements.each(function(a,b) {
-
-        console.log("getal: "+a);
-        console.log(b);
-        b.parent.parent.style.display = 'none';
-        
-    });
-}, 1900);
-setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
-   elements.each(function(a,b) {
-
-        console.log("getal: "+a);
-        console.log(b);
-        b.parent.style.display = 'none';
-        
-    });
-}, 2900);
 
     var videoelem;
     
@@ -54,11 +28,13 @@ setTimeout(function() { var elements = $('svg[viewbox="0 0 50 44"]');
     $(window).on('load', function() {
     
     setTimeout(function() {
-    videoelem = getElementByXpath('/html/body/div[1]/div/div[2]/div/div[2]/div[1]/div[2]/div[1]/div/div/div/div[1]/div/div/div[1]/div[1]/div/video');
+
+       videoelem = $('video')[0];
+        console.log(videoelem);
 
 
     
-    buttonelem = $('span:contains("Send file")')[1];
+    buttonelem = $('span:contains("Send file")')[0];
     
     buttonelem.innerHTML = rate.toFixed(2)+"x";
     
