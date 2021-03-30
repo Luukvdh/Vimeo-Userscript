@@ -28,3 +28,4 @@ Click links below to install:
 
 [EDITORS: ALLE STUDIO FUNCTIES (thumbnails, SRTs, EMBED-instellingen etc...](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
 
+[EDITORS: AUTOSAVER 2000](https://github.com/ewisenl/Vimeo-Userscript/raw/master/autosaver.user.js)
