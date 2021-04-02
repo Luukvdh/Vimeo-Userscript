@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Only Advanced Please!
 // @namespace    https://vimeo.com/
-// @version      0.1
+// @version      1.1
 // @description  try to take over the world!
 // @author       You
 // @match        https://vimeo.com/manage/videos/*
