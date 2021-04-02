@@ -28,4 +28,4 @@ Click links below to install:
 
 [EDITORS: ALLE STUDIO FUNCTIES (thumbnails, SRTs, EMBED-instellingen etc...](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
 
-[EDITORS: AUTOSAVER 2000] ***niet meer nodig na nieuwe feature in turtlebank***
+[ONLY ADVANCED PAGES PLEASE! (sla automatisch de simpele video-pagina zonder op 'advanced' te klikken](https://github.com/ewisenl/Vimeo-Userscript/raw/master/onlyadvanced.user.js)
