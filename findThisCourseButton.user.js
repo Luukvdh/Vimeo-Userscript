@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Knopje 'zoek de hele cursus' bij iedere videopagina
 // @namespace   ewise
-// @include     https://vimeo.com/manage/*
-// @version     1.2
+// @include     https://vimeo.com/manage/videos/^[0-9]*$
+// @version     1.3
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -11,7 +11,7 @@
 
 (function() {
  
-
+setTimeout(function() {
   var xpathResult = getElementByXpath("/html/body/div[1]/div[2]/main/div/div[1]/div[1]/span");
   
   var titel = xpathResult.innerText;
@@ -42,12 +42,12 @@
       style: 'padding: 7px; padding-top: 5px; padding-bottom: 5px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; position: relative;'
     });
   $button.appendTo(xpathResult);
-  
+  },1500);
   })();
   
   function getElementByXpath(path) {
     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-  }
   
+}
   
   
