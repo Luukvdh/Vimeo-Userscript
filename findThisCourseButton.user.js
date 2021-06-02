@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Knopje 'zoek de hele cursus' bij iedere videopagina
 // @namespace   ewise
-// @include     https://vimeo.com/manage/videos/^[0-9]*$
+// @include     https://vimeo.com/manage/*/general*
 // @version     1.3
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
