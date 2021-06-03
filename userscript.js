@@ -2,8 +2,7 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     1.3
-// @grant   none
+// @version     1.4
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
@@ -14,13 +13,16 @@
 // Author:      Luuk van den Hoogen
 // Date:     2019-26-juli
 
-$.noConflict();
 
-$.fn.extend({
-    toggleHTML: function(a, b){
-        return this.html(this.html() == b ? a : b);
-    }
+
+document.addEventListener('readystatechange', function() {
+    if (document.readyState == "complete") {
+        console.log("pipi");
+        setTimeout(function() {start();},50);
+    } else {console.log("one readystate");};
 });
+
+
 
 
 var style = document.createElement('style');
@@ -498,10 +500,10 @@ var page = 1;
 function start() {
 
 
+console.log("start gestart");
+setTimeout(function() {
+$("tbody")[1].children().each(function(b,a){ },1300);
 
-
-setTimeout(function() {$('body').children().each, function(b,a) {
-console.log(b);
 var $spinnertje = $('<a/>',{
     text:  'X',
     href: '#',
@@ -509,7 +511,7 @@ var $spinnertje = $('<a/>',{
     id:    'vink'+a,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
   }); $spinnertje.appendTo(b);
-}}, 2000);
+},30);
     token = vimeo.config.api.jwt;
      'use strict';
 //console.dir(vimeo.config);
@@ -657,7 +659,6 @@ $('.editors').show();
 });
 
 };
-(function() {start();})();
 
 
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
@@ -732,7 +733,7 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 var position = 1;
 console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
-if (arr[4].length > 299) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};
+if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
 file = file + thisline; oldnumber = digit;
 position++;
@@ -786,7 +787,7 @@ oldVersions[videoid] = a.versions[t].id;
 
 
 function opschoonButton() {
-    var $bar2 = $('.topnav_menu_desktop_main')[0];
+    var $bar2 = $('.topnav_menu_desktop_main').first();
 $('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
@@ -910,7 +911,7 @@ globalIDs.forEach(function(b,x) {
 setThumbnailTo3(b,co, resetsecs); co++;
 });}
 
-$(document).on('click', function(a) {try{if(a.toElement.textContent == "Load more…") {setTimeout(function() {page++; start()}, 1200);}} catch(e) {}});
+$(document).on('click', function(a) {try{if(a.toElement.textContent == "Load more…") {setTimeout(function() {page++; start()}, 3200);}} catch(e) {}});
 
 
 
