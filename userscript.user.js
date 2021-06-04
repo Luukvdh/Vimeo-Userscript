@@ -222,8 +222,8 @@ var embeddataremove = $.ajax({
 
 
 function addEmbedButtons(embed, a, videoid) {
-a = a+2;
-var $row = $('.video_manager__checkbox')[a];
+
+var $row = $('.video_manager__checkbox')[a+3];
 
 var $label = $("<label>", {style: "display: block; position: relative; padding-left: 35px; cursor: pointer; left: -75px; top: 5px;"});
 var $checkbox = $('<input />',{
@@ -500,14 +500,21 @@ var page = 1;
 
 // ------  START
 
-
+var blink;
 
 function start() {
+var $ticker = $('<a/>',{
+    html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
+    href: '#',
+    id: "tickertop",
+    style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
+  });
+$('svg').first().hide();
+    $ticker.appendTo($(".topnav_desktop_logo").first());
 
 
 
-
-setTimeout(function() {$('body').children().each, function(b,a) {
+setTimeout(function() {$('.table_cell__title_wrapper').each, function(b,a) {
 console.log(b);
 var $spinnertje = $('<a/>',{
     text:  'X',
@@ -595,13 +602,14 @@ a.data.forEach(function(z,a) {
 
 
 
-var $roww = $('.table_cell__title_wrapper')[a];
+var $roww = $('.video_manager__table_cell')[a];
 var $ticker = $('<a/>',{
     html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
     href: '#',
     id: "ticker"+a,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
-  }); $ticker.appendTo($roww);
+  });
+    $ticker.appendTo($roww);
 
 
 
@@ -621,7 +629,7 @@ videoid = z.uri;
 videoid = videoid.replace("/videos/", "");
 globalIDs.push(videoid);
 videolength = z.duration;
-getEmbed(videoid, a);
+getEmbed(videoid, a-1);
 
 
 
@@ -648,7 +656,7 @@ c++;
 
 
 }});
-$('.denker').remove();
+
 
 document.addEventListener('keypress', function(e) {
 if(e.keyCode == 96) {
@@ -672,7 +680,7 @@ console.log(b);
     if (document.readyState == "complete") {
         console.log("pipi");
         removeEventListener("readystatechange", start2, true);
-        setTimeout(function() {start();},2250);
+        setTimeout(function() {start();},250);
 
 };};
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
@@ -771,7 +779,8 @@ return newtimecode;
 
 
 function addVersionsSticker(videoid, b) {
-
+$('svg').first().show();
+$('#tickertop').hide();
     $.ajax({
          url: "https://vimeo.com/manage/"+videoid+"/services/collaboration",
 
