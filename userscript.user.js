@@ -18,7 +18,7 @@
 document.addEventListener('readystatechange', function() {
     if (document.readyState == "complete") {
         console.log("pipi");
-        setTimeout(function() {start();},50);
+        setTimeout(function() {start();},2250);
     } else {console.log("one readystate");};
 });
 
