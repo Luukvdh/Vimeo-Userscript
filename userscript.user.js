@@ -14,7 +14,7 @@
 // Author:      Luuk van den Hoogen
 // Date:     2019-26-juli
 
-
+     'use strict';
 
 $.fn.extend({
     toggleHTML: function(a, b){
@@ -124,6 +124,7 @@ function getVideoInfoForThumbnail(videoid) {
 var link;
 var videoinfo = $.ajax({
         type: 'POST',
+    async: true,
         url: "https://vimeo.com/upload/_get_image_url",
      data: {type: "video", id: videoid},
          success: function(a) {console.log("upload link verkrijgen gelukt"); uploadThumbnail(videoid, a);},
@@ -273,6 +274,7 @@ console.log("embed check mislukt...");
 var embeddata = $.ajax({
         type: 'GET',
         url: "https://vimeo.com/manage/"+videoid+"/services/embed",
+    async: true,
          statusCode: statusCodeResponses,
 success:function(b) {if (b.embed_settings.embed_preset_id == 297161) {addEmbedButtons(false, a, videoid);}; if (b.embed_settings.embed_preset_id == 120424522) {addEmbedButtons(true, a, videoid);} }
     });
@@ -503,29 +505,22 @@ var page = 1;
 var blink;
 
 function start() {
-var $ticker = $('<a/>',{
-    html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
-    href: '#',
-    id: "tickertop",
-    style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
-  });
-$('svg').first().hide();
-    $ticker.appendTo($(".topnav_desktop_logo").first());
 
 
 
-setTimeout(function() {$('.table_cell__title_wrapper').each, function(b,a) {
+
+$('.table_cell__title_wrapper').each(function(b,a) {
 console.log(b);
 var $spinnertje = $('<a/>',{
-    text:  'X',
+ html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
     href: '#',
-    id: "no"+a,
-    id:    'vink'+a,
+    id: "ticker"+b,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
-  }); $spinnertje.appendTo(b);
-}}, 100);
+  }); $spinnertje.appendTo($(a));
+});
+
     token = vimeo.config.api.jwt;
-     'use strict';
+
 //console.dir(vimeo.config);
 var direction = vimeo.config.video_manager.initial_state.sort.direction;
 var listtype = vimeo.config.video_manager.initial_state.sort.type;
@@ -535,6 +530,7 @@ if (direction != "desc" || listtype != "date") {
 var listtoken = vimeo.xsrft;
 $.ajax({
         type: 'POST',
+    async: true,
         url: "https://vimeo.com/settings?action=set_video_manager_sort_pref",
     data: "sort[type]=date&sort[direction]=desc&token="+listtoken,
     beforeSend: function(request) {
@@ -602,14 +598,8 @@ a.data.forEach(function(z,a) {
 
 
 
-var $roww = $('.video_manager__table_cell')[a];
-var $ticker = $('<a/>',{
-    html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
-    href: '#',
-    id: "ticker"+a,
-    style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
-  });
-    $ticker.appendTo($roww);
+var $roww = $('.table_cell__title_wrapper')[a];
+$("#ticker"+a).remove();
 
 
 
@@ -640,7 +630,7 @@ addThumbButton(videoid, a);
 
 var numberOfComments = getNumberOfComments(y) ? getNumberOfComments(y) : 0;
     console.log("Second time number of comments: "+numberOfComments);
-if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else { $('#ticker'+a).hide();
+if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else {
 globalnames.push(name);
 
 globallenghts.push(videolength);
@@ -785,6 +775,7 @@ $('#tickertop').hide();
          url: "https://vimeo.com/manage/"+videoid+"/services/collaboration",
 
          type: "GET",
+        async: true,
          fail: function(xhr){
        alert('request failed');},
          success: function(a) {
@@ -920,6 +911,7 @@ $.ajax({
          url: "https://api.vimeo.com/videos/"+videoid+"/pictures",
 
          type: "POST",
+    async: true,
     data:{active: true, time:secs},
     beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token);},
