@@ -2,7 +2,7 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     2.0
+// @version     2.1
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -512,7 +512,7 @@ function start() {
 $('.table_cell__title_wrapper').each(function(b,a) {
 console.log(b);
 var $spinnertje = $('<a/>',{
- html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
+  html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
     href: '#',
     id: "ticker"+b,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
@@ -598,8 +598,15 @@ a.data.forEach(function(z,a) {
 
 
 
-var $roww = $('.table_cell__title_wrapper')[a];
-$("#ticker"+a).remove();
+// var $roww = $('.table_cell__title_wrapper')[a];
+// var $ticker = $('<a/>',{
+//     html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
+//     href: '#',
+//     class: "ticker",
+//     id: "ticker"+a,
+//     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
+//   });
+//     $ticker.appendTo($roww);
 
 
 
@@ -629,7 +636,7 @@ addVersionsSticker(videoid, a);
 addThumbButton(videoid, a);
 
 var numberOfComments = getNumberOfComments(y) ? getNumberOfComments(y) : 0;
-    console.log("Second time number of comments: "+numberOfComments);
+    console.log("Second time number of comments: "+numberOfComments);$("#ticker"+a).remove();
 if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else {
 globalnames.push(name);
 
