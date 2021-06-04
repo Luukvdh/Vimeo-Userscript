@@ -2,7 +2,8 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     1.7
+// @version     2.0
+// @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
@@ -15,16 +16,13 @@
 
 
 
-document.addEventListener('readystatechange', function() {
-    if (document.readyState == "complete") {
-        console.log("pipi");
-        setTimeout(function() {start();},2250);
-    } else {console.log("one readystate");};
+$.fn.extend({
+    toggleHTML: function(a, b){
+        return this.html(this.html() == b ? a : b);
+    }
 });
 
-
-
-
+$.noConflict();
 var style = document.createElement('style');
 style.innerHTML = ".tooltip {opacity: 0; -webkit-transition: opacity 1s ease-in-out; transition: opacity 2s ease-in-out; transition-delay: 2s; } .tooltip:hover:after {opacity: 1;}";
 
@@ -200,7 +198,9 @@ var embeddata = $.ajax({
         type: 'PUT',
         url: "https://api.vimeo.com/videos/"+videoid+"/presets/120424522",
     beforeSend: function(request) {
-    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname); },
+    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json");
+    //request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname);
+    },
          success: function() {console.log('embed leraren toegevoegd...');}
     }); };
 
@@ -209,7 +209,9 @@ var embeddataremove = $.ajax({
         type: 'PUT',
         url: "https://api.vimeo.com/videos/"+videoid+"/presets/297161",
      beforeSend: function(request) {
-    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname); },
+    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json");
+     //request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname);
+     },
          success: function() {console.log('embed leraren verwijderd...')}, error: function(a) {console.log("embed veranderen niet gelukt..."); console.log(a);}}
     ); };
 
@@ -326,9 +328,12 @@ $downloadAllLink.appendTo($bar);
 var finds = (-1);
 
 function wel(r, a, yy, name, videoid) { finds++;
+                                       console.log("wel");
 links.push(yy);
 $('#allbutton').text("download alle SRT's ("+links.length+")");
-var numberOfComments = getNumberOfComments(yy);
+
+var numberOfComments = getNumberOfComments(yy) ? getNumberOfComments(yy) : 0 ;
+
 var $row = $('.table_cell__title_wrapper')[a];
 var $xmark = $('<a/>',{
     html:  '<span style="font-weight: bold; font-size: 14pt; position: relative; top: 2px;">&#9993;&nbsp;</span>('+numberOfComments+')',
@@ -500,10 +505,10 @@ var page = 1;
 function start() {
 
 
-console.log("start gestart");
-setTimeout(function() {
-$("tbody")[1].children().each(function(b,a){ },1300);
 
+
+setTimeout(function() {$('body').children().each, function(b,a) {
+console.log(b);
 var $spinnertje = $('<a/>',{
     text:  'X',
     href: '#',
@@ -511,7 +516,7 @@ var $spinnertje = $('<a/>',{
     id:    'vink'+a,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
   }); $spinnertje.appendTo(b);
-},30);
+}}, 100);
     token = vimeo.config.api.jwt;
      'use strict';
 //console.dir(vimeo.config);
@@ -554,8 +559,13 @@ totalfile = "oO0OoO0OoO0Oo  "+zipname.toUpperCase()+" (correcties) oO0OoO0OoO0Oo
 data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_event_date%2Cname%2Cpictures.uri%2Cprivacy%2Creview_page%2Curi&per_page=48&sort=date&direction=desc&query="+query,
          type: "GET",
         async: true,
+        xhrFields: {
+       withCredentials: false
+    },
      beforeSend: function(request) {
-    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname); },
+    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Origin", "https://vimeo.com/manage/videos/search/"+zipname);
+        // request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname);
+     },
          fail: function(a){
        alert('request failed');},
          success: function(a) {console.dir(a);
@@ -620,26 +630,16 @@ addThumbnailButton(videoid, a);
 addVersionsSticker(videoid, a);
 addThumbButton(videoid, a);
 
-var numberOfComments = getNumberOfComments(y);
-if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);};
-
-if (numberOfComments > 0) { $('#ticker'+a).hide();
+var numberOfComments = getNumberOfComments(y) ? getNumberOfComments(y) : 0;
+    console.log("Second time number of comments: "+numberOfComments);
+if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else { $('#ticker'+a).hide();
 globalnames.push(name);
 
 globallenghts.push(videolength);
-    var fileinfo = getSRT(y, name, 'no');  filesobj.push(fileinfo);
-try{
- $.ajax({
-    type: 'HEAD',
-    url: y,
-success: function() {
-        wel(w, a, y, name, videoid, videolength);
-},
-error: function() {
-       niet(w, a);
-}
-});
-} catch(e) {}; };
+    //var fileinfo = getSRT(y, name, 'no');  filesobj.push(fileinfo);
+
+                                                                          wel(w, a, y, name, videoid, videolength);
+                                                                        };
 
 c++;
          });
@@ -659,8 +659,22 @@ $('.editors').show();
 });
 
 };
+(function() {
+
+var readylisten = document.addEventListener('readystatechange', start2, true);
 
 
+
+})();
+
+function start2(b) {
+console.log(b);
+    if (document.readyState == "complete") {
+        console.log("pipi");
+        removeEventListener("readystatechange", start2, true);
+        setTimeout(function() {start();},2250);
+
+};};
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
 
 }
@@ -733,7 +747,7 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 var position = 1;
 console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
-if (arr[4].length > 193) {arr[4] = arr[4].substring(0,193)+" (SRT INGEKORT)";};
+if (arr[4].length > 193) {arr[4] = arr[4].substring(0,243)+" (...INGEKORT)";};
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
 file = file + thisline; oldnumber = digit;
 position++;
@@ -742,7 +756,7 @@ if (a>0) {thesecomments.push(arr[2]+" : "+arr[4]+" \r\n");};
 
 });
 allcomments.push(thesecomments.join(""));
-
+console.dir(allcomments);
 return file;
  }
 
@@ -787,7 +801,7 @@ oldVersions[videoid] = a.versions[t].id;
 
 
 function opschoonButton() {
-    var $bar2 = $('.topnav_menu_desktop_main').first();
+    var $bar2 = $('.topnav_menu_desktop_main')[0];
 $('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
@@ -911,7 +925,7 @@ globalIDs.forEach(function(b,x) {
 setThumbnailTo3(b,co, resetsecs); co++;
 });}
 
-$(document).on('click', function(a) {try{if(a.toElement.textContent == "Load more…") {setTimeout(function() {page++; start()}, 3200);}} catch(e) {}});
+$(document).on('click', function(a) {try{if(a.toElement.textContent == "Load more…") {setTimeout(function() {page++; start()}, 1200);}} catch(e) {}});
 
 
 
