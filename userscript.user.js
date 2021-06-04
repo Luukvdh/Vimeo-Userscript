@@ -506,7 +506,7 @@ var blink;
 
 function start() {
 
-
+$('svg').first().hide();
 
 
 $('.table_cell__title_wrapper').each(function(b,a) {
@@ -666,18 +666,20 @@ $('.editors').show();
 };
 (function() {
 
-var readylisten = document.addEventListener('readystatechange', start2, true);
+start0();
 
 
 
 })();
+
+function start0() {var readylisten = document.addEventListener('readystatechange', start2, true);};
 
 function start2(b) {
 console.log(b);
     if (document.readyState == "complete") {
         console.log("pipi");
         removeEventListener("readystatechange", start2, true);
-        setTimeout(function() {start();},250);
+        setTimeout(function() {start();},50);
 
 };};
 function addPlaysSticker(a, yearplays, red, last5months, avg) {
