@@ -16,16 +16,14 @@ Click links below to install:
 
 [MARJOLEIN's SNELHEIDSCONTROLE tijdens correcties plaatsen.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/snelheidscontrole.user.js)  
 
-[ZOEKBALK bovenin de pagina zoekt binnen E-WISE videos.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/swapSearchBar.user.js)  
+[ZOEKBALK bovenin vervangen voor een E-WISE ZOEKBALK.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/swapSearchBar.user.js)  
 
-[KNOPJE 'CURSUS' na ieder zoekresultaat om alle videos van die cursus te laten zien.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/allvideosCursusButton.user.js)  
+[ALTIJD EEN 'ZOEK DEZE CURSUS' KNOPJE IN ZOEKRESULTATEN EN PAKKET-MAPPEN](https://github.com/ewisenl/Vimeo-Userscript/raw/master/allvideosCursusButton.user.js)  
 
-[Op de INSTELLINGEN pagina van iedere video een knop 'ZOEK HELE CURSUS'.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/findThisCourseButton.user.js)  
+['ZOEK DEZE CURSUS op de SETTINGS pagina van iedere video](https://github.com/ewisenl/Vimeo-Userscript/raw/master/findThisCourseButton.user.js)  
 
-[STATISTIEKEN zoeken bij alle zoekresultaten (redactie).](https://github.com/ewisenl/Vimeo-Userscript/raw/master/redactie.user.js)  
+[REVIEWPAGE KNOPPEN om SRT te downloaden en naar SETTINGS te gaan.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/reviewpageButton.user.js)  
 
-[EDITORS: REVIEWPAGE KNOPPEN om SRT te downloaden en naar SETTINGS te gaan.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/reviewpageButton.user.js)  
+[CORRECTIES EN SRT DOWNLOAD FUNCTIES + LERAREN EMBED CHECKBOXES](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
 
-[EDITORS: ALLE STUDIO FUNCTIES (thumbnails, SRTs, EMBED-instellingen etc...](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
-
-[ONLY ADVANCED PAGES PLEASE! (sla automatisch de simpele video-pagina zonder op 'advanced' te klikken](https://github.com/ewisenl/Vimeo-Userscript/raw/master/onlyadvanced.user.js)
+[ONLY ADVANCED PAGES PLEASE! (FIXED) (sla automatisch de simpele video-pagina zonder op 'advanced' te klikken](https://github.com/ewisenl/Vimeo-Userscript/raw/master/onlyadvanced.user.js)
