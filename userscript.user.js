@@ -2,7 +2,7 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     2.2
+// @version     2.1
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -636,7 +636,8 @@ addVersionsSticker(videoid, a);
 addThumbButton(videoid, a);
 
 var numberOfComments = getNumberOfComments(y) ? getNumberOfComments(y) : 0;
-    //console.log("Second time number of comments: "+numberOfComments);$("#ticker"+a).remove();
+    //console.log("Second time number of comments: "+numberOfComments);
+    $("#ticker"+a).remove();
 if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else {
 globalnames.push(name);
 
