@@ -2,7 +2,7 @@
 // @name        Knopje 'zoek de hele cursus' bij iedere videopagina
 // @namespace   ewise
 // @include     https://vimeo.com/manage/*/general*
-// @version     1.3
+// @version     1.5
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -35,7 +35,7 @@ setTimeout(function() {
   
   var $button = $('<a/>',{
       text:  'zoek naar deze cursus',
-      href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundtitle),
+      href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundtitle)+"?",
       id:    'zoekcursus',
       onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
       onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";',
