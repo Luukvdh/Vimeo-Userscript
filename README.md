@@ -1,7 +1,7 @@
 markVimeo Userscripts
 =================
 
-Scripts to automize administrative operations in Vimeo.
+Scripts to automize E-WISE administrative operations in Vimeo.
 
 
 ## Setup
