@@ -18,12 +18,12 @@ Click links below to install:
 
 [ZOEKBALK bovenin vervangen voor een E-WISE ZOEKBALK.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/swapSearchBar.user.js)  
 
-[ALTIJD EEN 'ZOEK DEZE CURSUS' KNOPJE IN ZOEKRESULTATEN EN PAKKET-MAPPEN](https://github.com/ewisenl/Vimeo-Userscript/raw/master/allvideosCursusButton.user.js)  
+[ALTIJD EEN 'ZOEK DEZE CURSUS' KNOPJE in zoekresultaten en pakketmappen](https://github.com/ewisenl/Vimeo-Userscript/raw/master/allvideosCursusButton.user.js)  
 
 ['ZOEK DEZE CURSUS op de SETTINGS pagina van iedere video](https://github.com/ewisenl/Vimeo-Userscript/raw/master/findThisCourseButton.user.js)  
 
-[REVIEWPAGE KNOPPEN om SRT te downloaden en naar SETTINGS te gaan.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/reviewpageButton.user.js)  
+[REVIEWPAGE knoppen om SRT te downloaden en naar settings te gaan.](https://github.com/ewisenl/Vimeo-Userscript/raw/master/reviewpageButton.user.js)  
 
-[CORRECTIES EN SRT DOWNLOAD FUNCTIES + LERAREN EMBED CHECKBOXES](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
+[CORRECTIES / SRT DOWNLOAD-FUNCTIES + LERAREN EMBED CHECKBOXES](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
 
-[ONLY ADVANCED PAGES PLEASE! (FIXED) (sla automatisch de simpele video-pagina zonder op 'advanced' te klikken](https://github.com/ewisenl/Vimeo-Userscript/raw/master/onlyadvanced.user.js)
+[ONLY ADVANCED PAGES PLEASE! (FIXED) (sla automatisch de simpele video-pagina over, zonder op 'advanced' te klikken](https://github.com/ewisenl/Vimeo-Userscript/raw/master/onlyadvanced.user.js)
