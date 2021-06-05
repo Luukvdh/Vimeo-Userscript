@@ -2,7 +2,7 @@
 // @name        knopje settings in REVIEWPAGE
 // @namespace   ewise
 // @include     https://vimeo.com/ewise/review*
-// @version     1.7
+// @version     1.8
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -42,7 +42,7 @@ link = link.substring(link.length - 9, link.length);
 
     var $button2 = $('<a/>',{
       text:  'zoek alle video\'s van deze cursus',
-      href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundcursus),
+      href: 'https://vimeo.com/manage/videos/search/'+encodeURIComponent(foundcursus)+"?",
       id:    'zoekcursus',
       onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
       onmouseout: 'javascript:this.style.backgroundColor = "#125b73";',
