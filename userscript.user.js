@@ -2,7 +2,7 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     2.1
+// @version     2.5
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -26,7 +26,7 @@ $.noConflict();
 var style = document.createElement('style');
 style.innerHTML = ".tooltip {opacity: 0; -webkit-transition: opacity 1s ease-in-out; transition: opacity 2s ease-in-out; transition-delay: 2s; } .tooltip:hover:after {opacity: 1;}";
 
-
+var responses = {};
 var secs = 3.5;
 var resetsecs = 3.5;
 var links = new Array;
@@ -94,9 +94,10 @@ zip.generateAsync({type:"blob"})
 .then(function (blob) {
     saveAs(blob, zipname+" (correcties "+datum+").zip");
 }); };
-
+var tried = false;
+var responsetext = "";
 function getNumberOfComments(r) {
-
+if(!responses[r]) {
 var req =  $.ajax({
 
         type: 'GET',
@@ -106,10 +107,13 @@ var req =  $.ajax({
             request.setRequestHeader('filename', 'name');
             request.setRequestHeader("Content-type", "text/csv");request.setRequestHeader("processData", "false");
         },
-        processData: false
+        processData: false,
+    success: function(a) {console.log("succes: "+a.responseText);},
+    error: function() {},
     });
-var responsetext = (req.responseText);
-
+responsetext = req.responseText;
+responses[r] = responsetext;
+            } else { responsetext = responses[r];};
 var arr = [];
 
 
@@ -292,16 +296,11 @@ function getSRT(r, name, boolean) {
 
 
 
-var req =  $.ajax({
 
-        type: 'GET',
-        url: r,
-    async: false});
-var responsetext = (req.responseText);
-if(responsetext.includes(",,,,,,,")) {var j = responsetext.indexOf(",,,,,,,"); responsetext = responsetext.substr(0,j);};
-var responsetextsrt = convertCSVtoSRT(responsetext);
-name = req.name;
+var responsetextsrt = convertCSVtoSRT(responses[r]);
+
    return responsetextsrt;
+
 };
 
 
@@ -333,7 +332,7 @@ function wel(r, a, yy, name, videoid) { finds++;
 links.push(yy);
 $('#allbutton').text("download alle SRT's ("+links.length+")");
 
-var numberOfComments = getNumberOfComments(yy) ? getNumberOfComments(yy) : 0 ;
+var numberOfComments = getNumberOfComments(yy);
 
 var $row = $('.table_cell__title_wrapper')[a];
 var $xmark = $('<a/>',{
@@ -563,14 +562,14 @@ data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_e
          type: "GET",
         async: true,
         xhrFields: {
-       withCredentials: false
+      
     },
      beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Origin", "https://vimeo.com/manage/videos/search/"+zipname);
         // request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname);
      },
-         fail: function(a){
-       alert('request failed');},
+
+        error: function() {console.log("error bij api vimeo regel 574");},
          success: function(a) {//console.dir(a);
 a.data.sort(function(a, b) {
    return a.name - b.name}); c = 0;
@@ -635,7 +634,7 @@ addThumbnailButton(videoid, a);
 addVersionsSticker(videoid, a);
 addThumbButton(videoid, a);
 
-var numberOfComments = getNumberOfComments(y) ? getNumberOfComments(y) : 0;
+var numberOfComments = getNumberOfComments(y);
     //console.log("Second time number of comments: "+numberOfComments);
     $("#ticker"+a).remove();
 if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else {
@@ -653,7 +652,7 @@ c++;
 
 
 
-}});
+},error: function(){}});
 
 
 document.addEventListener('keypress', function(e) {
@@ -925,7 +924,8 @@ $.ajax({
     data:{active: true, time:secs},
     beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token);},
-    success: function(v) {$('thumb'+a).hide(); qq.style.backgroundImage = "url("+v.sizes[2].link+")";}
+    success: function(v) {$('thumb'+a).hide(); qq.style.backgroundImage = "url("+v.sizes[2].link+")";},
+    error: function() {}
 });
 }
 
