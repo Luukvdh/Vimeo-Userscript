@@ -2,7 +2,7 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/manage/videos/search/*
-// @version     2.1
+// @version     2.2
 // @grant   none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -77,6 +77,7 @@ totalfile = totalfile+"  >> "+globalnames[a]+"\r\n";
 
 var thisname = globalnames[a];
 //while(thisname.length <= longest) {thisname = thisname+" ";};
+    console.dir(filesobj);
 var srtdata = filesobj[a];
 var aantalcorrecties = getNumberOfComments(link);
 var edits = " edits";
@@ -103,6 +104,7 @@ var req =  $.ajax({
     async: false,
         beforeSend: function (request) {
             request.setRequestHeader('filename', 'name');
+            request.setRequestHeader("Content-type", "text/csv");request.setRequestHeader("processData", "false");
         },
         processData: false
     });
@@ -137,10 +139,7 @@ var videoinfo = $.ajax({
 // --------------------------------------------------------------------- upload thumbnail
 function uploadThumbnail(videoid, cloudlink) {
 
-console.log("Ik ben al bij upload thumbnail!");
-console.log("videoid: "+videoid);
-console.log("content-type: "+contenttype);
-console.log("cloudlink: "+cloudlink);
+
 
 $.ajax({
         type: 'PUT',
@@ -330,7 +329,7 @@ $downloadAllLink.appendTo($bar);
 var finds = (-1);
 
 function wel(r, a, yy, name, videoid) { finds++;
-                                       console.log("wel");
+                                     //  console.log("wel");
 links.push(yy);
 $('#allbutton').text("download alle SRT's ("+links.length+")");
 
@@ -510,7 +509,7 @@ $('svg').first().hide();
 
 
 $('.table_cell__title_wrapper').each(function(b,a) {
-console.log(b);
+//console.log(b);
 var $spinnertje = $('<a/>',{
   html:  '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="25px" height="25px" viewBox="0 0 128 128" xml:space="preserve"><g><path d="M75.4 126.63a11.43 11.43 0 0 1-2.1-22.65 40.9 40.9 0 0 0 30.5-30.6 11.4 11.4 0 1 1 22.27 4.87h.02a63.77 63.77 0 0 1-47.8 48.05v-.02a11.38 11.38 0 0 1-2.93.37z" fill="#6c87f0" fill-opacity="1"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="1800ms" repeatCount="indefinite"></animateTransform></g></svg>',
     href: '#',
@@ -538,7 +537,8 @@ $.ajax({
         request.setRequestHeader("Authorization", "jwt "+token);
     },
 success:  function(a) {console.log('Sorting is omgezet'); location.reload();},
-         error: function(a) {console.log('fout bij omzetten sorting...'); console.log(a);}
+         error: function(a) {console.log('fout bij omzetten sorting...');// console.log(a);
+                            }
     });
 
 };
@@ -571,7 +571,7 @@ data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_e
      },
          fail: function(a){
        alert('request failed');},
-         success: function(a) {console.dir(a);
+         success: function(a) {//console.dir(a);
 a.data.sort(function(a, b) {
    return a.name - b.name}); c = 0;
 
@@ -636,12 +636,12 @@ addVersionsSticker(videoid, a);
 addThumbButton(videoid, a);
 
 var numberOfComments = getNumberOfComments(y) ? getNumberOfComments(y) : 0;
-    console.log("Second time number of comments: "+numberOfComments);$("#ticker"+a).remove();
+    //console.log("Second time number of comments: "+numberOfComments);$("#ticker"+a).remove();
 if(!numberOfComments) {$('#ticker'+a).hide(); niet(w,a, videoid);} else {
 globalnames.push(name);
 
 globallenghts.push(videolength);
-    //var fileinfo = getSRT(y, name, 'no');  filesobj.push(fileinfo);
+    var fileinfo = getSRT(y, name, 'no');  filesobj.push(fileinfo);
 
                                                                           wel(w, a, y, name, videoid, videolength);
                                                                         };
@@ -675,9 +675,9 @@ start0();
 function start0() {var readylisten = document.addEventListener('readystatechange', start2, true);};
 
 function start2(b) {
-console.log(b);
+//console.log(b);
     if (document.readyState == "complete") {
-        console.log("pipi");
+        //console.log("pipi");
         removeEventListener("readystatechange", start2, true);
         setTimeout(function() {start();},50);
 
@@ -752,7 +752,7 @@ totalObjectArray.sort(function(a, b){return a[8] - b[8]});
 }});
 
 var position = 1;
-console.dir(totalObjectArray);
+//console.dir(totalObjectArray);
 totalObjectArray.forEach(function(arr, a) {
 if (arr[4].length > 193) {arr[4] = arr[4].substring(0,243)+" (...INGEKORT)";};
 thisline = position+"\r\n"+arr[2]+",000 --> "+add2seconds(arr[2])+",999\r\n"+arr[4]+"\r\n \r\n";
@@ -763,7 +763,7 @@ if (a>0) {thesecomments.push(arr[2]+" : "+arr[4]+" \r\n");};
 
 });
 allcomments.push(thesecomments.join(""));
-console.dir(allcomments);
+//console.dir(allcomments);
 return file;
  }
 
