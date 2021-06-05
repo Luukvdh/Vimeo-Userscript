@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         'Cursus' knopje in ALL VIDEOS
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.32
 // @description  try to take over the world!
 // @author       You
 // @match        https://vimeo.com/manage/folders*
@@ -20,12 +20,12 @@ $(".table_cell__title_wrapper").each(function(nr, el) {
     let newstr = txt.substring(0, txt.lastIndexOf("-"));
    console.log(newstr);
 
-    var $button = $('<a/>',{
+    var $button = $('                 <a/>',{
     text:  'cursus',
     href: 'https://vimeo.com/manage/videos/search/'+encodeURI(newstr),
     name:    'foundtitles',
     id: 'foundtitle'+nr,
-    style: 'padding: 6px; padding-top: 3px; padding-bottom: 3px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; position: relative;',
+    style: 'padding: 6px; padding-top: 3px; padding-bottom: 3px; color: white; background-color: #19B7EA; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";'
   });
@@ -37,7 +37,7 @@ $button.appendTo(el);
 
 
 
-    },3200);
+    },4000);
 };
 (function() {
 
