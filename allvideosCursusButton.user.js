@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         'Cursus' knopje in ALL VIDEOS
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @description  try to take over the world!
 // @author       You
 // @match        https://vimeo.com/manage/folders*
@@ -24,7 +24,7 @@ $('body').on("DOMSubtreeModified",function(a) {if (a.target.classList[0] == "vid
 
     var $button = $('<a/>',{
     text:  'cursus',
-    href: 'https://vimeo.com/manage/videos/search/'+encodeURI(newstr),
+    href: 'https://vimeo.com/manage/videos/search/'+encodeURI(newstr)+"?",
     name:    'foundtitles',
     id: 'foundtitle'+nr,
     style: 'padding: 6px; padding-top: 1px; padding-bottom: 1px; padding-right: 6px; color: white; background-color: #19B7EA; display: inline; z-index:999; margin-left:18px; margin-right:8px; border-radius: 4px;',
@@ -57,5 +57,5 @@ document.addEventListener('keydown', function (e) {
 
 })();
 
-function start0() {var readylisten = document.addEventListener('readystatechange', function() {if (document.readyState == "complete") {goToWork();};}, false);};
+function start0() {var readylisten = document.addEventListener('readystatechange', function() {if (document.readyState == "complete" && location.href.indexOf("?") < 0) {goToWork();} else {$("h2").last().html(decodeURI(location.href.substring(location.href.lastIndexOf("/")+1,location.href.length-1))); };}, false);};
 
