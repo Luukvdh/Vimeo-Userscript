@@ -27,3 +27,5 @@ Click links below to install:
 [CORRECTIES / SRT DOWNLOAD-FUNCTIES + LERAREN EMBED CHECKBOXES](https://github.com/ewisenl/Vimeo-Userscript/raw/master/userscript.user.js)
 
 [ONLY ADVANCED PAGES PLEASE! (FIXED) (sla automatisch de simpele video-pagina over, zonder op 'advanced' te klikken](https://github.com/ewisenl/Vimeo-Userscript/raw/master/onlyadvanced.user.js)
+
+[HOME PAGE snelkoppelingen naar recente cursussen op home van Vimeo](https://github.com/ewisenl/Vimeo-Userscript/raw/master/homepage.user.js)
