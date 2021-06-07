@@ -26,7 +26,7 @@ $("#topnav2").focus();
     if ($( ".video_manager__primary_content_container" ).length)  { console.log("gogo"); clearInterval(intr); gogo();};
   }, 80);
 function gogo() { $("body").css("overflow","scroll"); $(".topnav_menu_desktop_main").first().css("width","auto"); $("#topnav2").css("width","550px"); $("a").attr("target","_blank"); $("body").css("overflow","scroll");
-    var casus = ".casus {display: inline-block; text-align: left; color: white; font-size: 15pt; padding:0px;height: 62px; min-width: 34%; max-width: 85%; margin:0px; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-word; overflow-wrap: anywhere; line-height: normal; }";
+    var casus = ".casus {display: inline-block; text-align: left; color: white; font-size: 15pt; padding:0px;height: 49px; min-width: 34%; max-width: 85%; margin:0px; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-word; overflow-wrap: anywhere; line-height: normal; }";
     var button = ".button {width: 50%;height: 50px;color: #fff; margin:0px; "+
     "padding: 0px 6px;  font-family: 'Lato', sans-serif;  font-weight: 500; position: relative: top:0px; left:0px;  background: transparent;"+
     "cursor: pointer;  transition: all 0.1s ease;  position: relative;  display: inline-block;"+
