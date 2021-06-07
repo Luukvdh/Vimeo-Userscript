@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HOME PAGE NEWS laat cursussen zien van de laatste tijd
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  try to take over the world!
 // @author       You
 // @match        *://vimeo.com/$
@@ -12,27 +12,39 @@
 var alreadyfound = [];
 var picturestoget = [];
 var pakket = 1;
+var once = 1;
 var g = 0;
       'use strict';
 var color = "#000000";
 
-setTimeout(function() { $("body").css("overflow","scroll"); $(".topnav_menu_desktop_main").first().css("width","40%"); $("#topnav2").css("width","550px"); $("a").attr("target","_blank"); $("body").css("overflow","scroll");
-    var casus = ".casus {display: inline-block; text-align: center; color: white; font-size: 15pt; min-height:60%; max-height: 60%; min-width: 54%; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-all; overflow-wrap: anywhere; line-height: normal; }";
-    var button = ".button {width: 50%;height: 90px;color: #fff;border-radius: 5px; "+
-    "padding: 2px 6px;  font-family: 'Lato', sans-serif;  font-weight: 500; position: relative: top:0px; left:0px;  background: transparent;"+
-    "cursor: pointer;  transition: all 0.3s ease;  position: relative;  display: inline-block; filter: grayscale(30%) brightness(1.5);"+
-    "box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),   7px 7px 20px 0px rgba(0,0,0,.1),4px 4px 5px 0px rgba(0,0,0,.1); outline: none;} .button:hover {filter: grayscale(0%) brightness(1.8);}";
 
-    var pic_css = ".pic {width: 160px; height:90px; z-index:-1; position: static;opacity:0.0; };";
+(function() {
+
+    var intr = setInterval(function() {
+
+
+    if ($( ".video_manager__primary_content_container" ).length)  { console.log("gogo"); clearInterval(intr); gogo();};
+  }, 80);
+function gogo() { $("body").css("overflow","scroll"); $(".topnav_menu_desktop_main").first().css("width","40%"); $("#topnav2").css("width","550px"); $("a").attr("target","_blank"); $("body").css("overflow","scroll");
+    var casus = ".casus {display: inline-block; text-align: left; color: white; font-size: 15pt; padding:0px;height: 62px; min-width: 34%; max-width: 85%; margin:0px; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-word; overflow-wrap: anywhere; line-height: normal; }";
+    var button = ".button {width: 50%;height: 74px;color: #fff; "+
+    "padding: 2px 6px;  font-family: 'Lato', sans-serif;  font-weight: 500; position: relative: top:0px; left:0px;  background: transparent;"+
+    "cursor: pointer;  transition: all 0.3s ease;  position: relative;  display: inline-block;"+
+    "outline: none;} .button:hover {filter: grayscale(0%) brightness(1.8);}";
+var containerfx = '.containerfx {display":"flex","align-items":"center","flex-wrap":"wrap","width":"100%";}';
+    var pic_css = ".pic {height:70px; z-index:-1; position: static;opacity:0.0; };";
+
     addGlobalStyle(casus);
     addGlobalStyle(pic_css);
     addGlobalStyle(button);
-
-
-var $zoekbalk = $("<input style=\"width:\'30%\'; height:\'35px\'; text-align:\'center\';margin:\'auto\';\">").attr("id","zoekbalk");
-    $zoekbalk.prependTo($(".video_manager__primary_content_container"));
-        $(".video_manager__primary_content_container").children().remove();
-    $(".video_manager__primary_content_container").css({"display":"flex","align-items":"center","flex-wrap":"wrap"});
+                 addGlobalStyle(containerfx);
+ //$(".video_manager__primary_content_container").children().remove();
+$(".video_manager__primary_content_container").css("margin","40px");
+//var $zoekbalk = $("<input style=\"width:\'30%\'; height:\'35px\'; text-align:\'center\';margin:\'auto\';\">").attr("id","zoekbalk");
+   //$zoekbalk.prependTo($(".video_manager__primary_content_container").first());
+       
+    $(".video_manager__primary_content_container").addClass("containerfx");
+                 $("a").attr("onclick",'$(".video_manager__primary_content_container").removeClass("containerfx")');
 
         
         var page = 1;
@@ -65,7 +77,8 @@ $(".button").each(function(nr, el) { console.log($(el).children().eq(2).text());
 
 function getThem(q) {
 var token = vimeo.config.api.jwt; console.log(token);
-
+if(once >= q) {return;};
+    once++;
 
             $.ajax({
                 url: "https://api.vimeo.com/me/videos?per_page=100&fields=name,pictures.uri&page="+q,
@@ -97,7 +110,7 @@ function startPics() {
 for(var e = 0; e < alreadyfound.length; e++) {if(addPics(e)) {var bb = 1;};};};
 
 function addPics(e) {var token = vimeo.config.api.jwt; console.log(alreadyfound.length);
- 
+
 
                         var teststr = alreadyfound[e].substring(0,2);
                         console.log(teststr);
@@ -108,9 +121,9 @@ function addPics(e) {var token = vimeo.config.api.jwt; console.log(alreadyfound.
                             case "SL": pakket = 3; break;
                             default: pakket = 1; break;};
                         switch(pakket) {
-                            case 1: color = "#004b93"; break;
-                            case 2: color = "#006745"; break;
-                            case 3: color = "#730a4b"; break;};
+                            case 1: color = "#206bb3"; break;
+                            case 2: color = "#208765"; break;
+                            case 3: color = "#932a6b"; break;};
                         var $pane = $("<div\>");
                         $pane.addClass('button');
 
@@ -121,14 +134,14 @@ function addPics(e) {var token = vimeo.config.api.jwt; console.log(alreadyfound.
 
                         $aa.addClass("casus");
                         $aa.text(alreadyfound[e]);
-                        $aa.css("color","white");$pane.css("background-image","linear-gradient(to right,"+color+" 80%,#353839 100%)");
-                     var $lab = $("<label for='casus"+e+"'>");
-
+                        $aa.css("color","white");$pane.css("background-image","linear-gradient(to left,"+color+" 60%,#353839 100%)");
+                     
+$pane.attr("onClick","window.open('https://vimeo.com/manage/videos/search/"+encodeURI(alreadyfound[e])+"?', '_blank');");
                         $aa.appendTo($pane);$pic.prependTo($pane);
-                     $("</label>").appendTo($pane);
-$lab.prependTo($pane);
+                    
 
-                        $pane.appendTo($(".video_manager__primary_content_container"));
+
+                        $pane.prependTo($(".video_manager__primary_content_container").first());
 
 
                         
@@ -162,4 +175,4 @@ function addGlobalStyle(css) {
     style.type = 'text/css';
     style.innerHTML = css;
     head.appendChild(style);
-}},600);
+}}})();
