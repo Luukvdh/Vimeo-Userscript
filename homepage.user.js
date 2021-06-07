@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HOME PAGE NEWS laat cursussen zien van de laatste tijd
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.2
 // @description  try to take over the world!
 // @author       You
 // @match        *://vimeo.com/$
@@ -19,7 +19,7 @@ var color = "#000000";
 
 
 (function() {
-
+$("#topnav2").focus();
     var intr = setInterval(function() {
 
 
@@ -57,7 +57,7 @@ if(getThem(4)) {};
 
 $("#topnav2").on("input", function(i) {zoek(i.currentTarget.value);});
 
-$("#topnav2").focus();
+
                     
 
 
