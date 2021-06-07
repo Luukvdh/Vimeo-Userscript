@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         Home Page snelkoppelingen
+// @name         HOME PAGE NEWS laat cursussen zien van de laatste tijd
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  try to take over the world!
 // @author       You
-// @match        *://vimeo.com
+// @match        *://vimeo.com/$
 // @icon         https://www.google.com/s2/favicons?domain=vimeo.com
 // @grant        none
 // ==/UserScript==
@@ -16,12 +16,12 @@ var g = 0;
       'use strict';
 var color = "#000000";
 
-setTimeout(function() {
+setTimeout(function() { $("body").css("overflow","scroll"); $(".topnav_menu_desktop_main").first().css("width","40%"); $("#topnav2").css("width","550px"); $("a").attr("target","_blank"); $("body").css("overflow","scroll");
     var casus = ".casus {display: inline-block; text-align: center; color: white; font-size: 15pt; min-height:60%; max-height: 60%; min-width: 54%; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-all; overflow-wrap: anywhere; line-height: normal; }";
     var button = ".button {width: 50%;height: 90px;color: #fff;border-radius: 5px; "+
     "padding: 2px 6px;  font-family: 'Lato', sans-serif;  font-weight: 500; position: relative: top:0px; left:0px;  background: transparent;"+
-    "cursor: pointer;  transition: all 0.3s ease;  position: relative;  display: inline-block; filter: grayscale(60%);"+
-    "box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),   7px 7px 20px 0px rgba(0,0,0,.1),4px 4px 5px 0px rgba(0,0,0,.1); outline: none;} .button:hover {filter: grayscale(0%) brightness(1.5);}";
+    "cursor: pointer;  transition: all 0.3s ease;  position: relative;  display: inline-block; filter: grayscale(30%) brightness(1.5);"+
+    "box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),   7px 7px 20px 0px rgba(0,0,0,.1),4px 4px 5px 0px rgba(0,0,0,.1); outline: none;} .button:hover {filter: grayscale(0%) brightness(1.8);}";
 
     var pic_css = ".pic {width: 160px; height:90px; z-index:-1; position: static;opacity:0.0; };";
     addGlobalStyle(casus);
@@ -29,7 +29,8 @@ setTimeout(function() {
     addGlobalStyle(button);
 
 
-
+var $zoekbalk = $("<input style=\"width:\'30%\'; height:\'35px\'; text-align:\'center\';margin:\'auto\';\">").attr("id","zoekbalk");
+    $zoekbalk.prependTo($(".video_manager__primary_content_container"));
         $(".video_manager__primary_content_container").children().remove();
     $(".video_manager__primary_content_container").css({"display":"flex","align-items":"center","flex-wrap":"wrap"});
 
@@ -41,15 +42,21 @@ if(getThem(1)) {};
 if(getThem(2)) {};
 if(getThem(3)) {};
 
+$("#topnav2").on("input", function(i) {zoek(i.currentTarget.value);});
 
-
-
+$("#topnav2").focus();
                     
 
 
                    
 
 
+
+function zoek(i) {
+
+$(".button").each(function(nr, el) { console.log($(el).children().eq(2).text()); if (!$(el).children().eq(2).text().toLowerCase().includes(i.toLowerCase())) { $(el).hide(); } else {$(el).show();}});
+   
+};
 
 
 
