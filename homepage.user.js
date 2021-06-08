@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HOME PAGE NEWS laat cursussen zien van de laatste tijd
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.1
 // @description  try to take over the world!
 // @author       You
 // @match        *://vimeo.com/$
@@ -19,20 +19,20 @@ var color = "#000000";
 
 
 (function() {
-$("#topnav2").focus();
+
     var intr = setInterval(function() {
 
 
     if ($( ".video_manager__primary_content_container" ).length)  { console.log("gogo"); clearInterval(intr); gogo();};
   }, 80);
-function gogo() { $("body").css("overflow","scroll"); $(".topnav_menu_desktop_main").first().css("width","auto"); $("#topnav2").css("width","550px"); $("a").attr("target","_blank"); $("body").css("overflow","scroll");
-    var casus = ".casus {display: inline-block; text-align: left; color: white; font-size: 15pt; padding:0px;height: 49px; min-width: 34%; max-width: 85%; margin:0px; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-word; overflow-wrap: anywhere; line-height: normal; }";
-    var button = ".button {width: 50%;height: 50px;color: #fff; margin:0px; "+
-    "padding: 0px 6px;  font-family: 'Lato', sans-serif;  font-weight: 500; position: relative: top:0px; left:0px;  background: transparent;"+
-    "cursor: pointer;  transition: all 0.1s ease;  position: relative;  display: inline-block;"+
-    "outline: none; overflow: hidden;} .button:hover {filter: grayscale(0%) brightness(1.8);}";
-var containerfx = '.containerfx {display":"flex","align-items":"center","flex-wrap":"wrap","width":"100%"; gap: 0px; flex-gap:0;}';
-    var pic_css = ".pic {height:50px; z-index:-1; position: static;opacity:0.0; overflow: hidden; margin:0px;};";
+function gogo() { $("body").css("overflow","scroll"); $(".topnav_menu_desktop_main").first().css("width","40%"); $("#topnav2").css("width","550px"); $("a").attr("target","_blank"); $("body").css("overflow","scroll");
+    var casus = ".casus {display: inline-block; text-align: left; color: white; font-size: 15pt; padding:0px;height: 62px; min-width: 34%; max-width: 85%; margin:0px; margin-left: 2%; margin-right: 2%;overflow: visible; height:60%; word-break: break-word; overflow-wrap: anywhere; line-height: normal; }";
+    var button = ".button {width: 50%;height: 74px;color: #fff; "+
+    "padding: 2px 6px;  font-family: 'Lato', sans-serif;  font-weight: 500; position: relative: top:0px; left:0px;  background: transparent;"+
+    "cursor: pointer;  transition: all 0.3s ease;  position: relative;  display: inline-block;"+
+    "outline: none;} .button:hover {filter: grayscale(0%) brightness(1.8);}";
+var containerfx = '.containerfx {display":"flex","align-items":"center","flex-wrap":"wrap","width":"100%";}';
+    var pic_css = ".pic {height:70px; z-index:-1; position: static;opacity:0.0; };";
 
     addGlobalStyle(casus);
     addGlobalStyle(pic_css);
@@ -53,11 +53,10 @@ $(".video_manager__primary_content_container").css("margin","40px");
 if(getThem(1)) {};
 if(getThem(2)) {};
 if(getThem(3)) {};
-if(getThem(4)) {};
 
 $("#topnav2").on("input", function(i) {zoek(i.currentTarget.value);});
 
-
+$("#topnav2").focus();
                     
 
 
@@ -104,7 +103,7 @@ if(once >= q) {return;};
 
                         name = name.substring(0,name.lastIndexOf("-"));
                         console.log(name);
-                        if(alreadyfound.indexOf(name) < 0 && name.length > 6) {alreadyfound.push(name); picturestoget.push(r.pictures.uri);};};if(q==4){setTimeout(startPics(),800);};return true; }});
+                        if(alreadyfound.indexOf(name) < 0 && name.length > 6) {alreadyfound.push(name); picturestoget.push(r.pictures.uri);};};if(q==3){setTimeout(startPics(),800);};return true; }});
 };
 
 function startPics() {
