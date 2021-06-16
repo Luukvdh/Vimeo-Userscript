@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HOME PAGE NEWS laat cursussen zien van de laatste tijd
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.1
 // @description  try to take over the world!
 // @author       You
 // @match        *://vimeo.com/$
