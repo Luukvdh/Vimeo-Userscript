@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HOME PAGE NEWS laat cursussen zien van de laatste tijd
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      2.0
 // @description  try to take over the world!
 // @author       You
 // @match        *://vimeo.com/$
@@ -12,7 +12,7 @@
 var alreadyfound = [];
 var picturestoget = [];
 var pakket = 1;
-var once = 1;
+var once = 0;
 var g = 0;
       'use strict';
 var color = "#000000";
@@ -50,9 +50,10 @@ $(".video_manager__primary_content_container").css("margin","40px");
         var page = 1;
         var query = "po";
         var results = [];
+
 if(getThem(1)) {};
-if(getThem(2)) {};
-if(getThem(3)) {};
+// if(getThem(2)) {};
+// if(getThem(3)) {};
 
 $("#topnav2").on("input", function(i) {zoek(i.currentTarget.value);});
 
@@ -77,33 +78,38 @@ $(".button").each(function(nr, el) { console.log($(el).children().eq(2).text());
 
 function getThem(q) {
 var token = vimeo.config.api.jwt; console.log(token);
-if(once >= q) {return;};
-    once++;
-
-            $.ajax({
-                url: "https://api.vimeo.com/me/videos?per_page=100&fields=name,pictures.uri&page="+q,
+// if(once > q) {return;};
+//     once++;
+for(q = 1; q < 3; q++) {
+          var w =  $.ajax({
+                url: "https://api.vimeo.com/me/videos?per_page=100&fields=name,date,pictures.uri&sort=date&direction=desc&page="+q,
 
                 type: "GET",
                 async: true,
                 xhrFields: {
 
                 },
-                beforeSend: function(request) {
-                    request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json");
+                beforeSend: function(request) { request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json");
                     // request.setRequestHeader("Referer", "https://vimeo.com/manage/videos/search/"+zipname);
                 },
 
                 error: function() {console.log("error bij api vimeo regel 574"); return true;},
                 success: function(a) {
-
-                    for(let r of a.data) {
+var all = [];
+                    all = a.data;
+                    all.reverse();
+                    for(let r of all) {
                         var name =r.name;
 
 
 
                         name = name.substring(0,name.lastIndexOf("-"));
                         console.log(name);
-                        if(alreadyfound.indexOf(name) < 0 && name.length > 6) {alreadyfound.push(name); picturestoget.push(r.pictures.uri);};};if(q==3){setTimeout(startPics(),800);};return true; }});
+                        if(alreadyfound.indexOf(name) < 0 && name.length > 6) {alreadyfound.push(name); picturestoget.push(r.pictures.uri);};};if(q==3){setTimeout(startPics(),800);}; }});
+if(w>1) {w = "a"};
+  };
+
+
 };
 
 function startPics() {
@@ -142,7 +148,7 @@ $pane.attr("onClick","window.open('https://vimeo.com/manage/videos/search/"+enco
 
 
                         $pane.prependTo($(".video_manager__primary_content_container").first());
-
+if((e+1)==alreadyfound.length) {$("<br>").appendTo($(".video_manager__primary_content_container"));};
 
                         
 
