@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         'Cursus' knopje in ALL VIDEOS
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @description  try to take over the world!
 // @author       You
 // @match        https://vimeo.com/*
@@ -50,7 +50,7 @@ nr++;
 };
 
 
-function goNow() {if(location.href[location.href.length-1] != '?' && location.href[location.href.length-2] != '?' ) {setTimeout(function() { $('.foundtitlesbutton').remove();var $sectie = $("section")[4]; $($sectie).unbind(); $($sectie).on("DOMSubtreeModified", function(b) {var $bt = $(b.target); if($bt.hasClass('video_manager__table_item')) {addCursusButton($bt);}; });},500);}};
+function goNow() {if(location.href[location.href.length-1] != '?' && location.href[location.href.length-2] != '?' ) {setTimeout(function() { $('.foundtitlesbutton').remove();var $sectie = $("section")[4]; $($sectie).unbind(); $($sectie).on("DOMSubtreeModified", function(b) {$(".video_manager__column--left").css({width:'20rem'}); var $bt = $(b.target); if($bt.hasClass('video_manager__table_item')) {addCursusButton($bt);}; });},500);}};
 (function() { goNow();
 
              window.addEventListener('locationchange', function(v){console.log("LOCATION CHANGE!"+v); goNow();});
