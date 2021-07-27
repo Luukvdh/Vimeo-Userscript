@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
-// @include     https://vimeo.com/manage/videos/search/*
-// @version     2.5
-// @grant   none
+// @include     https://vimeo.com/*
+// @version     2.6
+// @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.js
@@ -23,9 +23,12 @@ $.fn.extend({
 });
 
 $.noConflict();
+
+var resourcebutton;
+
 var style = document.createElement('style');
 style.innerHTML = ".tooltip {opacity: 0; -webkit-transition: opacity 1s ease-in-out; transition: opacity 2s ease-in-out; transition-delay: 2s; } .tooltip:hover:after {opacity: 1;}";
-
+var set = false;
 var responses = {};
 var secs = 3.5;
 var resetsecs = 3.5;
@@ -51,7 +54,7 @@ var blobUrl;
 var imagefile;
 var showhidethumb = false;
 var reader = new FileReader();
-var $input = $('<input/>',{type: "file", id:"fileid", style:"display:none;"});
+var $input = $("<input/>",{type: "file", id:"fileid", style:"display:none;"});
 var $copyinput = $('<textarea/>',{id:"copyinput", style:"display:none;"});
 $input.prependTo($('body'));
 $copyinput.prependTo($('body'));
@@ -232,7 +235,7 @@ var $row = $('.video_manager__checkbox')[a+3];
 var $label = $("<label>", {style: "display: block; position: relative; padding-left: 35px; cursor: pointer; left: -75px; top: 5px;"});
 var $checkbox = $('<input />',{
     type: 'checkbox',
-    class: 'checkbox',
+    class: 'checkbox ewisebox',
     title: 'Leraren-embed instellingen?',
     id:    'LEcheckbox'+a,
     name:  'LEcheckbox'+a,
@@ -408,7 +411,7 @@ var $row = $('.table_cell__title_wrapper')[a];
 var $link5 = $('<a/>',{
     text:  '✓',
     href: '#',
-    id: "no"+a,
+    class: 'vink',
     id:    'vink'+a,
     style: 'padding: 6px; color: green; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px;'
   }); $link5.appendTo($row);
@@ -503,9 +506,11 @@ var page = 1;
 var blink;
 
 function start() {
-
+set = true;
+$('.foundtitlesbutton').remove(); $('.versiondiv').remove();
 $('svg').first().hide();
-
+$('.message').remove(); $('.blue').remove();
+    $('.vink').remove();  $('.ewisebox').remove();
 
 $('.table_cell__title_wrapper').each(function(b,a) {
 //console.log(b);
@@ -562,7 +567,7 @@ data:"fields=created_time%2Cduration%2Cfile_transfer%2Clink%2Clast_user_action_e
          type: "GET",
         async: true,
         xhrFields: {
-      
+
     },
      beforeSend: function(request) {
     request.setRequestHeader("Authorization", "jwt "+token); request.setRequestHeader("Accept", "application/vnd.vimeo.*+json;version=3.4.1"); request.setRequestHeader("Content-Type", "application/json"); request.setRequestHeader("Origin", "https://vimeo.com/manage/videos/search/"+zipname);
@@ -664,17 +669,49 @@ $('.editors').show();
 });
 
 };
-(function() {
 
-start0();
+(function() {
+    $("#topnav_resources").remove();
+    $("#topnav_features").remove();
+    resourcebutton = $("[aria-owns='topnav_resources']")[0]; $(resourcebutton).text("\n                                Correcties?                                                                    \n                                        \n                                            \n                                        \n                                    \n                                                            ");
+set = false;
+    $(resourcebutton).removeAttr("onclick");
+    $(resourcebutton).on("click",function() {  start4(); });
+history.pushState = ( f => function pushState(){
+    var ret = f.apply(this, arguments);
+    window.dispatchEvent(new Event('pushstate'));
+    window.dispatchEvent(new Event('locationchange'));
+    return ret;
+})(history.pushState);
+
+history.replaceState = ( f => function replaceState(){
+    var ret = f.apply(this, arguments);
+    window.dispatchEvent(new Event('replacestate'));
+    window.dispatchEvent(new Event('locationchange'));
+    return ret;
+})(history.replaceState);
+
+window.addEventListener('popstate',()=>{
+    window.dispatchEvent(new Event('locationchange'))
+});
+    if(location.href[location.href.length-1] == '?' || location.href[location.href.length-2] == '?' ) {set = false; start0();};
+             window.addEventListener('locationchange', function(v){console.log("LOCATION CHANGE!"+v); set = false; if(location.href[location.href.length-1] == '?' || location.href[location.href.length-2] == '?' ) {$(resourcebutton).unbind();  $(resourcebutton).on("click",start4());  if(!set) {start();};}; start0();  });
+
+
+
+
 
 
 
 })();
-
-function start0() {var readylisten = document.addEventListener('readystatechange', start2, true);};
-
-function start2(b) {
+function start3() { $($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,location.href.lastIndexOf('?')))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
+$('svg').first().hide();
+$('.message').remove(); $('.blue').remove();
+    $('.vink').remove();  $('.ewisebox').remove(); if(!set) {start();};};
+function start0() {$($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,location.href.lastIndexOf('?')))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove(); var readylisten = document.addEventListener('readystatechange', start2, true);};
+function start1() {};
+function start4() {if(!set) {start();}}
+function start2() { $($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,location.href.lastIndexOf('?')))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
 //console.log(b);
     if (document.readyState == "complete") {
         //console.log("pipi");
@@ -791,7 +828,7 @@ $('#tickertop').hide();
 var versionsCount = a.versions.length;
 if (versionsCount > 1) {
 var $commentCountDiv = $('<div/>',
-                         {id: "versiondiv"+a,
+                         {id: "versiondiv"+a, class:'versiondiv',
                           "z-index": "99999",
                           onclick:"window.open('https://vimeo.com/manage/"+videoid+"/collaboration')",
                           style:"width: auto; height: 25px; border-radius: 4px; margin: 5px; margin-left: 12px; padding: auto; padding-top: 3px; padding-left:9px; padding-right:9px; font-weight: bold; background-color: darkred; color: white; opacity:0.4; display: inline-block; left: 300px; ",
