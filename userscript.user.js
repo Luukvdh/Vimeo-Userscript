@@ -2,7 +2,7 @@
 // @name        Studio E-WISE functies (thumbnails, correcties, versiebeheer)
 // @namespace   ewise
 // @include     https://vimeo.com/*
-// @version     2.6
+// @version     2.7
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
@@ -344,7 +344,7 @@ var $xmark = $('<a/>',{
     //onmouseover: 'javascript:this.style.transform = "scale(1.05)"',
     //onmouseout: 'javascript:this.style.transform = "scale(1.0)"',
     id: "x"+a,
-    class: 'blue',
+    class: 'blue blueknop',
     title: allcomments[finds],
     id:    'cross'+a,
     style: 'padding: 6px; color: #ee7600; background-color: transparent; display: block; float: right; z-index:999; margin-left:1%; border-radius: 4px; line-height:0.5; font-weight: bold;transition: all 0.10s;'
@@ -363,7 +363,7 @@ if (numberOfComments > 0) {
 var $link2 = $('<a/>',{
     html:  'SRT (<span style="color:white; font-weight: bolder;">'+numberOfComments+'</span>)',
     href: '#',
-    class:'blue',
+    class:'blue blueknop',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";this.style.transform = "scale(1.05)"',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";this.style.transform = "scale(1.0)"',
     title: allcomments[finds],
@@ -374,7 +374,7 @@ var $link2 = $('<a/>',{
 var $link3 = $('<a/>',{
     text:  'review page',
     href: '#',
-    class:'blue',
+    class:'blue blueknop',
     onmouseover: 'javascript:this.style.backgroundColor = "#0088CC";this.style.transform = "scale(1.05)"',
     onmouseout: 'javascript:this.style.backgroundColor = "#19B7EA";this.style.transform = "scale(1.0)"',
     id:    'reviewpage'+a,
@@ -509,7 +509,7 @@ function start() {
 set = true;
 $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
 $('svg').first().hide();
-$('.message').remove(); $('.blue').remove();
+$('.message').remove(); $('.blueknop').remove();
     $('.vink').remove();  $('.ewisebox').remove();
 
 $('.table_cell__title_wrapper').each(function(b,a) {
@@ -550,7 +550,7 @@ var total = {};
 
 
 opschoonButton();
-thumb3Buttons();
+
 
 query = window.location.href.replace('https://vimeo.com/manage/videos/search/','');
 zipname = decodeURIComponent(query).replace('#','');
@@ -671,11 +671,12 @@ $('.editors').show();
 };
 
 (function() {
+
     $("#topnav_resources").remove();
     $("#topnav_features").remove();
     resourcebutton = $("[aria-owns='topnav_resources']")[0]; $(resourcebutton).text("\n                                Correcties?                                                                    \n                                        \n                                            \n                                        \n                                    \n                                                            ");
 set = false;
-    $(resourcebutton).removeAttr("onclick");
+    $(resourcebutton).removeAttr("onclick"); $(resourcebutton).css({color:'orange'});
     $(resourcebutton).on("click",function() {  start4(); });
 history.pushState = ( f => function pushState(){
     var ret = f.apply(this, arguments);
@@ -694,7 +695,7 @@ history.replaceState = ( f => function replaceState(){
 window.addEventListener('popstate',()=>{
     window.dispatchEvent(new Event('locationchange'))
 });
-    if(location.href[location.href.length-1] == '?' || location.href[location.href.length-2] == '?' ) {set = false; start0();};
+    if(location.href[location.href.length-1] == '?' || location.href[location.href.length-2] == '?' ) {set = false; $('.editors').show(); try{ $('.editors')[2].remove();} catch(e) {}; start0();} else {$('.editors').hide();};
              window.addEventListener('locationchange', function(v){console.log("LOCATION CHANGE!"+v); set = false; if(location.href[location.href.length-1] == '?' || location.href[location.href.length-2] == '?' ) {$(resourcebutton).unbind();  $(resourcebutton).on("click",start4());  if(!set) {start();};}; start0();  });
 
 
@@ -703,17 +704,17 @@ window.addEventListener('popstate',()=>{
 
 
 
-})();
-function start3() { $($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,location.href.lastIndexOf('?')))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
+})();var ind = 0;
+function start3() { (location.href.lastIndexOf('?') > 0) ?  ind = location.href.lastIndexOf('?') : ind =  location.href.length; $($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,ind))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
 $('svg').first().hide();
-$('.message').remove(); $('.blue').remove();
+$('.message').remove(); $('.blueknop').remove(); $(".editors")[2].remove();
     $('.vink').remove();  $('.ewisebox').remove(); if(!set) {start();};};
-function start0() {$($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,location.href.lastIndexOf('?')))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove(); var readylisten = document.addEventListener('readystatechange', start2, true);};
+function start0() {  ind =(location.href.lastIndexOf('?') > 0) ?  location.href.lastIndexOf('?') :  ind = location.href.length;$($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,ind))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove(); var readylisten = document.addEventListener('readystatechange', start2, true);};
 function start1() {};
 function start4() {if(!set) {start();}}
-function start2() { $($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,location.href.lastIndexOf('?')))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
+function start2() { ind =(location.href.lastIndexOf('?') > 0) ?   location.href.lastIndexOf('?') : ind =  location.href.length; $($("h2")[0]).text(decodeURIComponent(location.href.substring(location.href.lastIndexOf('/')+1,ind))); $($("h2")[0]).css({'font-weight':600}); $('.foundtitlesbutton').remove(); $('.versiondiv').remove();
 //console.log(b);
-    if (document.readyState == "complete") {
+    if (document.readyState == "complete") { $(".video_manager__column--left").css({width:'20rem'});
         //console.log("pipi");
         removeEventListener("readystatechange", start2, true);
         setTimeout(function() {start();},50);
@@ -848,16 +849,16 @@ oldVersions[videoid] = a.versions[t].id;
 
 function opschoonButton() {
     var $bar2 = $('.topnav_menu_desktop_main')[0];
-$('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);
+//$('<p class="message" style="margin: 21px; color: black; margin-left: 50px; font-weigth: bold;"><b>      Toets ~ voor editor-opties...</b></p>').appendTo($bar2);
 var $opschoonLink = $('<a/>',{
     text:  'versies opschonen',
     class: 'blue editors',
     title: 'verwijder automatisch alle oudste versies van alle video\'s in deze zoekopdracht...',
-    href: '#',
+    href: 'javascript:void(0)',
     onmouseover: 'javascript:this.style.backgroundColor = "red";',
     onmouseout: 'javascript:this.style.backgroundColor = "darkred";',
     id:    'schoonbutton',
-    style: 'display: none; padding: 8px; padding-top: 5px; color: white; background-color: darkred; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
+    style: 'padding: 8px; padding-top: 5px; color: white; background-color: darkred; float: right; z-index:999; margin-left:4%; border-radius: 4px; height: 25px; margin-top: 8px;'
   });
 $opschoonLink.click(function() {allesOpschonen();});
 
