@@ -14,7 +14,7 @@
 var link = location.href;
     if(!link.includes("search")) {
 link = link.replace("manage/videos/","manage/");
-link = link + "/general";
+link = link + "/collaboration";
 location.href = link;};
 
 
