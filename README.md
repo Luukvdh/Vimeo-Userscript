@@ -1,4 +1,4 @@
-markVimeo Userscripts
+E-Wise Vimeo Userscripts
 =================
 
 Scripts to automize E-WISE administrative operations in Vimeo.
