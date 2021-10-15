@@ -5,7 +5,7 @@
 // @include     https://vimeo.com/manage/*/embed*
 // @include     https://vimeo.com/manage/*/collaboration*
 // @include     https://vimeo.com/manage/*/thumbnails*
-// @version     1.5
+// @version     1.6
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
 // ==/UserScript==
@@ -15,7 +15,7 @@
 (function() {
  
 setTimeout(function() {
-  var xpathResult = getElementByXpath("/html/body/div[1]/div[2]/main/div/div[1]/div[1]/span");
+  var xpathResult = getElementByXpath("/html/body/div[1]/div[2]/main/div/div[1]/div[1]/div/span");
   
   var titel = xpathResult.innerText;
       console.log(titel);
